@@ -1,14 +1,26 @@
-import React from 'react';
-import EventCard from './components/EventCard'; 
+"use client"
+import React, { useState } from 'react';
+import FirstPage from './components/FirstPage';
+import SecondPage from './components/SecondPage';
 
+const Home: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<'first' | 'second'>('first');
 
-  export default function Home() {
-    return (
-      <div className="flex min-h-screen flex-col ">
-          <main>
-          <EventCard />
-          </main>
-          
-      </div>
-    );
-  }
+  const onNavigate = (page: 'first' | 'second') => {
+    setCurrentPage(page);
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      <main>
+        {currentPage === 'first' ? (
+          <FirstPage onNavigate={() => onNavigate('second')} />
+        ) : (
+          <SecondPage onNavigate={() => onNavigate('first')} />
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Home;
