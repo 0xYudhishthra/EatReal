@@ -1,47 +1,39 @@
 "use client"
 import React, { useState } from 'react';
-import './App.css'; // Make sure to create an App.css file for styling
+import Cards from '../components/Cards';
 
-// Define TypeScript interfaces for the card properties
-interface CardProps {
-  year: number;
-  eventsCount: number;
-  title: string;
-  poweredBy: string;
-  onNavigate: () => void;
- 
-}
 
-// Create the card component
-const Card: React.FC<CardProps> = ({ year, eventsCount, title, poweredBy, onNavigate}) => {
-  return (
-    <div className="card" onClick={onNavigate}>
-      <div className="card-year">{year}</div>
-      <div className="card-events">{eventsCount} Events</div>
-      <div className="card-title">{title}</div>
-      <div className="card-powered">{poweredBy}</div>
-      
-      
-    </div>
-  );
-};
-
-// Main App component where you use the card component
 const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
         <h1>Nomad3</h1>
-        <p>Click here to get see what's AFI is in your NFT</p>
+        <p>Click here to see what's AFI is in your NFT</p>
       </header>
-      <div className="cards-container">
-        <Card year={2023} eventsCount={32} title="The 'Degen'" poweredBy="powered by ERC-6551" onNavigate={() => onNavigate("CardOne")}/>
-        <Card year={2024} eventsCount={32} title="The 'Degen'" poweredBy="powered by ERC-6551" onNavigate={() => onNavigate("CardTwo")}/>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
+        <div className="md:col-span-4 md:col-start-3 lg:col-start-3 xl:col-start-3">
+          <Cards 
+            year={2023} 
+            eventsCount={32} 
+            title="The 'Degen'" 
+            poweredBy="powered by ERC-6551" 
+            onNavigate={() => onNavigate("CardOne")}
+            image="/hello.jpg" 
+          />
+        </div>
+        <div className="md:col-span-4 md:col-start-8 lg:col-start-8 xl:col-start-8">
+          <Cards 
+            year={2024} 
+            eventsCount={32} 
+            title="The 'Degen'" 
+            poweredBy="powered by ERC-6551" 
+            onNavigate={() => onNavigate("CardTwo")}
+            image="/Untitled.png" 
+          />
+        </div>
       </div>
     </div>
   );
 };
-
-
 
 export default MainPage;
