@@ -1,4 +1,4 @@
-'use state'
+"use client"
 import React, { useEffect, useState } from 'react';
 import { ParticleNetwork, UserInfo } from '@particle-network/auth';
 import { ParticleProvider } from '@particle-network/provider';
