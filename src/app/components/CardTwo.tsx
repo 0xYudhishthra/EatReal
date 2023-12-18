@@ -2,15 +2,6 @@
 import React, { useState } from 'react';
 import Cards from '../components/Cards';
 
-// Define TypeScript interfaces for the card properties
-interface CardProps {
-  year: number;
-  eventsCount: number;
-  title: string;
-  poweredBy: string;
-  onNavigate: () => void;
-
-}
 
 
 // Main App component where you use the card component
