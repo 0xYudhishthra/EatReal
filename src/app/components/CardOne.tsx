@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react';
+import './App.css'; // Make sure to create an App.css file for styling
 
 // Define TypeScript interfaces for the card properties
 interface CardProps {
@@ -23,7 +24,7 @@ const Card: React.FC<CardProps> = ({ year, eventsCount, title, poweredBy, onNavi
 };
 
 // Main App component where you use the card component
-const SecondPage: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
+const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
@@ -31,11 +32,11 @@ const SecondPage: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => {
         <p>Click here to get see what's AFI is in your NFT</p>
       </header>
       <div className="cards-container">
-        <Card year={2021} eventsCount={32} title="The 'Degen'" poweredBy="powered by ERC-6551" onNavigate={onNavigate}/>
-        <Card year={2021} eventsCount={32} title="The 'Degen'" poweredBy="powered by ERC-6551" onNavigate={onNavigate}/>
+        <Card year={2023} eventsCount={32} title="The 'Degen'" poweredBy="powered by ERC-6551" onNavigate={() => onNavigate("CardOne")}/>
+        
       </div>
     </div>
   );
 };
 
-export default SecondPage;
+export default CardOne;

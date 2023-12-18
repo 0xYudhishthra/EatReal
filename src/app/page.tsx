@@ -1,22 +1,29 @@
+// Home Component
 "use client"
 import React, { useState } from 'react';
-import FirstPage from './components/FirstPage';
-import SecondPage from './components/SecondPage';
+import MainPage from './components/MainPage';
+import CardOne from './components/CardOne';
+import CardTwo from './components/CardTwo';
 
 const Home: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'first' | 'second'>('first');
+  const [currentPage, setCurrentPage] = useState<'MainPage' | 'CardOne' | 'CardTwo'>('MainPage');
 
-  const onNavigate = (page: 'first' | 'second') => {
+  const onNavigate = (page: 'MainPage' | 'CardOne' | 'CardTwo') => {
     setCurrentPage(page);
   };
 
   return (
     <div className="flex min-h-screen flex-col">
       <main>
-        {currentPage === 'first' ? (
-          <FirstPage onNavigate={() => onNavigate('second')} />
-        ) : (
-          <SecondPage onNavigate={() => onNavigate('first')} />
+      <img src='/hello' alt='sss'/>
+        {currentPage === 'MainPage' && (
+          <MainPage onNavigate={onNavigate} />
+        )}
+        {currentPage === 'CardOne' && (
+          <CardOne onNavigate={() => onNavigate('MainPage')} />
+        )}
+        {currentPage === 'CardTwo' && (
+          <CardTwo onNavigate={() => onNavigate('MainPage')} />
         )}
       </main>
     </div>
