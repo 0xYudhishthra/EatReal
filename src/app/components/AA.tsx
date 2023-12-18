@@ -1,3 +1,5 @@
+'use state'
+import React, { useEffect, useState } from 'react';
 import { ParticleNetwork, UserInfo } from '@particle-network/auth';
 import { ParticleProvider } from '@particle-network/provider';
 import { Viction } from '@particle-network/chains';
