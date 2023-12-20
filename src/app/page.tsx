@@ -15,7 +15,7 @@ const Home: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <main>
-      <img src='/hello' alt='sss'/>
+      
         {currentPage === 'MainPage' && (
           <MainPage onNavigate={onNavigate} />
         )}
