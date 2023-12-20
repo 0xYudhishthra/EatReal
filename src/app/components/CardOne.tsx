@@ -2,12 +2,10 @@
 import React, { useState } from 'react';
 import Cards from '../components/Cards';
 
-
-// Create the card component
-
+//2023
 
 // Main App component where you use the card component
-const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
+const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' ) => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
@@ -24,6 +22,9 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
           image="/hello.jpg" // Update with the path to your first image
         />
       </div>
+
+
+
     </div>
   );
 };

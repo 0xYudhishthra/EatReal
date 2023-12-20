@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Cards from '../components/Cards';
 
 
-const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
+const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' ) => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">

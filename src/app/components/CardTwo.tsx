@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Cards from '../components/Cards';
 
 
-
+//2024
 // Main App component where you use the card component
 const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
   return (
