@@ -15,7 +15,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
   <div className="md:col-span-4 md:col-start-3 lg:col-start-3 xl:col-start-3">
     <Cards 
-      year={2023} 
+      year={2023}   
       eventsCount={32} 
       title="The 'Degen'" 
       poweredBy="powered by ERC-6551" 
@@ -23,12 +23,12 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
       image="/hello.jpg" 
     />
   </div>
-  <div className="relative p-4">
+  <div className="absolute right-40">
   {/* Grid container to hold the cards */}
-  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 ">
+  <div className="container">
 
     {/* First card */}
-    <div className="md:col-span-3 md:col-start-1 relative z-30">
+    <div className="absolute top-25 right-20  z-30 -rotate-90">
       <Cards
         year={2023}
         eventsCount={4}
@@ -40,7 +40,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
     </div>
 
     {/* Second card */}
-    <div className="md:col-span-3 md:col-start-1 absolute z-20 left-20">
+    <div className="absolute top-25 right-10  z-30 -rotate-90">
       <Cards
         year={2023}
         eventsCount={4}
@@ -52,7 +52,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
     </div>
 
     {/* third card */}
-    <div className="md:col-span-3 md:col-start-1 absolute z-10 left-40">
+    <div className="absolute top-25 right-0  z-30 -rotate-90">
       <Cards
         year={2023}
         eventsCount={4}
