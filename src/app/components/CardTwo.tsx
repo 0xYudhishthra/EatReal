@@ -1,5 +1,6 @@
 import React from 'react';
 import Cards from '../components/Cards';
+import EventCard from '../components/EventCard';
 
 // Main App component where you use the card component
 const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
@@ -22,45 +23,41 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
         </div>
         <div className="relative p-4">
           {/* Grid container to hold the cards */}
+          <div className="relative pl-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 ">
             {/* First card */}
-            <div className="md:col-span-3 md:col-start-1 relative z-30">
-              <Cards
-                year={2023}
-                eventsCount={4}
-                title="The 'Degen'"
-                poweredBy="powered by ERC-6551"
-                onNavigate={() => onNavigate("CardTwo")}
+            <div className="md:col-span-3 md:col-start-1 relative z-72">
+              <EventCard
+                title="ETH Sinagpore"
+                connection='Connetions: 5'
+                onNavigate={() => onNavigate("CardOne")}
                 image="/1.jpeg"
               />
             </div>
 
             {/* Second card */}
-            <div className="md:col-span-3 md:col-start-1 absolute z-20 left-20">
-              <Cards
-                year={2023}
-                eventsCount={4}
-                title="The 'Degen'"
-                poweredBy="powered by ERC-6551"
-                onNavigate={() => onNavigate("CardTwo")}
+            <div className="md:col-span-3 md:col-start-1 absolute z-20 left-80">
+              <EventCard
+                title="ETH Denver"
+                connection='Connetions: 5'
+                onNavigate={() => onNavigate("CardOne")}
                 image="/2.jpeg"
               />
             </div>
 
             {/* Third card */}
-            <div className="md:col-span-3 md:col-start-1 absolute z-10 left-40">
-              <Cards
-                year={2023}
-                eventsCount={4}
-                title="The 'Degen'"
-                poweredBy="powered by ERC-6551"
-                onNavigate={() => onNavigate("CardTwo")}
-                image="/4.jpeg"
+            <div className="md:col-span-3 md:col-start-1 absolute z-10 left-44">
+              <EventCard
+                title="ETH CC"
+                connection='Connetions: 5'
+                onNavigate={() => onNavigate("CardOne")}
+                image="/3.jpeg"
               />
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
