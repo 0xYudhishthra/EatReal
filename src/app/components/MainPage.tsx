@@ -28,7 +28,7 @@ const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo'
             title="The 'Degen'" 
             poweredBy="powered by ERC-6551" 
             onNavigate={() => onNavigate("CardTwo")}
-            image="/Untitled.png" 
+            image="/3.jpeg" 
           />
         </div>
       </div>
