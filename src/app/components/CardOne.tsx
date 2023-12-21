@@ -2,7 +2,7 @@ import React from 'react';
 import Cards from '../components/Cards';
 import EventCard from './EventCard';
 
-const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
+const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard') => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
@@ -27,7 +27,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
               <EventCard
                 title="ETH Sinagpore"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("CardOne")}
+                onNavigate={() => onNavigate("ETHSingaporeCard")}
                 image="/1.jpeg"
               />
             </div>
@@ -37,7 +37,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
               <EventCard
                 title="ETH Denver"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("CardOne")}
+                onNavigate={() => onNavigate("ETHSingaporeCard")}
                 image="/2.jpeg"
               />
             </div>
@@ -47,7 +47,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
               <EventCard
                 title="ETH CC"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("CardOne")}
+                onNavigate={() => onNavigate("ETHSingaporeCard")}
                 image="/3.jpeg"
               />
             </div>

@@ -10,7 +10,7 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
             eventsCount={0} 
             title="ETH Singapore" 
             poweredBy="powered by ERC-6551" 
-            onNavigate={() => onNavigate("ETHSingaporeCard")}
+            onNavigate={() => onNavigate("MainPage")}
             image="/hello.jpg" // Update with the path to your first image
           />
         </div>

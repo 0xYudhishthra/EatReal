@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Cards from '../components/Cards';
 
 
-const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' ) => void }> = ({ onNavigate }) => {
+const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard' ) => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
@@ -28,10 +28,11 @@ const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo'
             title="The 'Degen'" 
             poweredBy="powered by ERC-6551" 
             onNavigate={() => onNavigate("CardTwo")}
-            image="/3.jpeg" 
+            image="/Untitled.png" 
           />
         </div>
       </div>
+      <button className="rounded-lg border-white bg-slate-700 p-3 mt-20" onClick={() => onNavigate("ETHSingaporeCard")}>Connection Made</button>
     </div>
   );
 };
