@@ -2,8 +2,9 @@ import React from 'react';
 import Cards from '../components/Cards';
 import EventCard from '../components/EventCard';
 
+
 // Main App component where you use the card component
-const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo') => void }> = ({ onNavigate }) => {
+const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' |'ETHSingaporeCard') => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
@@ -13,11 +14,11 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
         <div className="md:col-span-4 md:col-start-3 lg:col-start-3 xl:col-start-3">
           <Cards
-            year={2024}
+            year={2024} 
             eventsCount={32}
             title="The 'Degen'"
             poweredBy="powered by ERC-6551"
-            onNavigate={() => onNavigate("CardTwo")}
+            onNavigate={() => onNavigate("MainPage")}
             image="/3.jpeg" // Update with the path to your second image
           />
         </div>
@@ -30,7 +31,7 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
               <EventCard
                 title="ETH Sinagpore"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("CardOne")}
+                onNavigate={() => onNavigate("ETHSingaporeCard")}
                 image="/1.jpeg"
               />
             </div>
@@ -40,7 +41,7 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
               <EventCard
                 title="ETH Denver"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("CardOne")}
+                onNavigate={() => onNavigate("ETHSingaporeCard")}
                 image="/2.jpeg"
               />
             </div>
@@ -50,7 +51,7 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo')
               <EventCard
                 title="ETH CC"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("CardOne")}
+                onNavigate={() => onNavigate("ETHSingaporeCard")}
                 image="/3.jpeg"
               />
             </div>

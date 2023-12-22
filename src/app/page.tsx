@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import MainPage from './components/MainPage';
 import CardOne from './components/CardOne';
 import CardTwo from './components/CardTwo';
+import ETHSingaporeCard from './components/CardOne-2023/ETHSingaporeCard';
 
 const Home: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'MainPage' | 'CardOne' | 'CardTwo'>('MainPage');
+  const [currentPage, setCurrentPage] = useState<'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard'>('MainPage');
 
-  const onNavigate = (page: 'MainPage' | 'CardOne' | 'CardTwo') => {
+  const onNavigate = (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard') => {
     setCurrentPage(page);
   };
 
@@ -20,10 +21,13 @@ const Home: React.FC = () => {
           <MainPage onNavigate={onNavigate} />
         )}
         {currentPage === 'CardOne' && (
-          <CardOne onNavigate={() => onNavigate('MainPage')} />
+          <CardOne onNavigate={onNavigate} />
         )}
         {currentPage === 'CardTwo' && (
-          <CardTwo onNavigate={() => onNavigate('MainPage')} />
+          <CardTwo onNavigate={onNavigate} />
+        )}
+        {currentPage === 'ETHSingaporeCard' && (
+          <ETHSingaporeCard onNavigate={onNavigate} />
         )}
       </main>
     </div>
