@@ -21,13 +21,13 @@ const Home: React.FC = () => {
           <MainPage onNavigate={onNavigate} />
         )}
         {currentPage === 'CardOne' && (
-          <CardOne onNavigate={() => onNavigate('MainPage')} />
+          <CardOne onNavigate={onNavigate} />
         )}
         {currentPage === 'CardTwo' && (
-          <CardTwo onNavigate={() => onNavigate('MainPage')} />
+          <CardTwo onNavigate={onNavigate} />
         )}
         {currentPage === 'ETHSingaporeCard' && (
-          <ETHSingaporeCard onNavigate={() => onNavigate('MainPage')} />
+          <ETHSingaporeCard onNavigate={onNavigate} />
         )}
       </main>
     </div>

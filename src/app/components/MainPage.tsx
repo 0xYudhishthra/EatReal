@@ -32,7 +32,7 @@ const MainPage: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo'
           />
         </div>
       </div>
-      <button className="rounded-lg border-white bg-slate-700 p-3 mt-20" onClick={() => onNavigate("ETHSingaporeCard")}>Connection Made</button>
+      
     </div>
   );
 };
