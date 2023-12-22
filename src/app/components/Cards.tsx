@@ -11,8 +11,8 @@ interface CardProps {
 
 const Cards: React.FC<CardProps> = ({ year, eventsCount, title, poweredBy, onNavigate, image }) => {
   return (
-    <div className='flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-blue-500 text-white w-96 h-auto' onClick={onNavigate}>
-        <img src={image} alt={title} className="w-full h-48 object-cover" />
+    <div className='flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-blue-500 text-white w-96 h-auto hover:cursor-pointer hover:bg-blue-700 ease-in duration-300' onClick={onNavigate}>
+      <img src={image} alt={title} className="w-full h-48 object-cover" />
         <div className="text-lg font-bold mt-4">{year}</div>
         <div className="mb-2">{eventsCount} Events</div>
         <div className="mb-2">{title}</div>
