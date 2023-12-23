@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Cards from '../Cards';
 import PersonCard from '../PersonCard';
 
-const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard' ) => void }> = ({ onNavigate }) => {
+const ETHCC: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHCC' ) => void }> = ({ onNavigate }) => {
     return (
         <div >
           <div>
@@ -12,8 +12,8 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
           <div className="flex items-center justify-center">
             <Cards 
               year={2023} 
-              eventsCount={0} 
-              title="ETH Singapore" 
+              eventsCount={46} 
+              title="ETHCC" 
               poweredBy="powered by ERC-6551" 
               onNavigate={() => onNavigate("CardOne")}
               image="/hello.jpg" // Update with the path to your first image
@@ -21,18 +21,18 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
           </div>
           <div className='flex justify-between mt-28 mx-40'>
           <PersonCard 
-              name={"Cody"} 
-              score="Score: 80" 
-              title="ETH Singapore" 
+              name={"Alexander Ginorrel"} 
+              score="Score: 80"
+              title="ETH CC" 
               image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
+              notes="Notes: I met Alexander at the Viction event. He's the Project Manager of the Viction team."
             />
             <PersonCard 
-              name={"Victoria Mitchell"} 
-              score="Score: 56" 
-              title="ETH Singapore" 
+              name={"Picioso Wazowski"} 
+              score="Score: 100"
+              title="ETH CC" 
               image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
+              notes="Notes: I met Picioso at the Viction event. He's the Project Manager of the Viction team."
             />
           </div>
           <div className="flex items-center justify-center h-screen">
@@ -49,5 +49,5 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
     );
   };
   
-  export default ETHSingaporeCard;
+  export default ETHCC;
   
