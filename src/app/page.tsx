@@ -1,5 +1,5 @@
 import React from 'react';
-import EventCard from './components/EventCard'; 
+
 import AA from './components/AA';
 
   export default function Home() {
