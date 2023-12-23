@@ -4,7 +4,7 @@ import EventCard from '../components/EventCard';
 
 
 // Main App component where you use the card component
-const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' |'ETHSingaporeCard') => void }> = ({ onNavigate }) => {
+const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHLondon' | 'ETHTaipei' | 'ETHSydney') => void }> = ({ onNavigate }) => {
   return (
     <div className="app">
       <header className="header">
@@ -29,9 +29,9 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
             {/* First card */}
             <div className="md:col-span-3 md:col-start-1 relative z-72">
               <EventCard
-                title="ETH Sinagpore"
+                title="ETH London"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("ETHLondon")}
                 image="/1.jpeg"
               />
             </div>
@@ -39,9 +39,9 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
             {/* Second card */}
             <div className="md:col-span-3 md:col-start-1 absolute z-20 left-80">
               <EventCard
-                title="ETH Denver"
+                title="ETH Taipei"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("ETHTaipei")}
                 image="/2.jpeg"
               />
             </div>
@@ -49,9 +49,9 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
             {/* Third card */}
             <div className="md:col-span-3 md:col-start-1 absolute z-10 left-44">
               <EventCard
-                title="ETH CC"
+                title="ETH Sydney"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("ETHSydney")}
                 image="/3.jpeg"
               />
             </div>
