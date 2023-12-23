@@ -12,7 +12,7 @@ import ETHSydney from './components/CardTwo-2024/ETHSydney';
 import ETHTaipei from './components/CardTwo-2024/ETHTaipei';
 
 const Home: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard'>('MainPage');
+  const [currentPage, setCurrentPage] = useState<'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard' | 'ETHDenverCard'>('MainPage');
 
   const onNavigate = (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard') => {
     setCurrentPage(page);
