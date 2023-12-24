@@ -57,6 +57,12 @@ export default function RootLayout({
         testnet: true, // Boolean indicating whether the chain is a testnet or mainnet
         chain: "Viction Testnet", // Name of the network
         name: "Viction Testnet", // Name of the network
+        icon: {
+          url: "ipfs://QmcxZHpyJa8T4i63xqjPYrZ6tKrt55tZJpbXcjSDKuKaf9/optimism/512.png",
+          width: 512,
+          height: 512,
+          format: "png",
+        },
       }}
       clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
       autoConnect={true}
