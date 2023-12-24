@@ -31,41 +31,10 @@ const LandingPage: React.FC<{
 
   const { data, isLoading, error } = useContractRead(
     Nomad3,
-    "getYears",
-    [],
-    {
-      from: address
-    }
+    "eventMinterContractAddress"
   );
 
-  const eventsCountData = (year: number) => {
-    return useContractRead(
-      Nomad3,
-      "getEventCount",
-      [year.toString()],  // Use the provided year as an argument
-      {
-        from: address
-      }
-    );
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setYearsData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [Nomad3, address, data]);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const intValue = /^\d+$/.test(value) ? parseInt(value, 10) : "";
-    setInputValue(intValue);
-  };
+  console.log(data);
 
   const {
     mutateAsync,
@@ -100,28 +69,17 @@ const LandingPage: React.FC<{
               </div>
             ))}
           </div>
-          <div className="p-5">
-            <input
-              type="text"
-              pattern="\d*"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder="Enter Year"
-              className="text-black mr-8" // Added mb-3 for bottom margin
-            />
-
-            <Web3Button
-              contractAddress={Nomad3?.getAddress() || ""}
-              contractAbi={Nomad3?.abi}
-              action={() => mutateAsync({ args: [ethers.BigNumber.from(inputValue)] })}
-              onSubmit={() => console.log("Transaction submitted")}
-              onSuccess={(result) => console.log(result)}
-              onError={(error) => console.log(error)}
-              className="ml-8" // Added mb-3 for bottom margin
-            >
-              Send Transaction
-            </Web3Button>
-          </div>
+          <Web3Button
+            contractAddress={Nomad3?.getAddress() || ""}
+            contractAbi={Nomad3?.abi}
+            // Calls the "setName" function on your smart contract with "My Name" as the first argument
+            action={() => mutateAsync({ args: [2019] })}
+            onSubmit={() => console.log("Transaction submitted")}
+            onSuccess={(result) => console.log(result)}
+            onError={(error) => console.log(error)}
+          >
+            Send Transaction
+          </Web3Button>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center flex-1">
@@ -129,13 +87,14 @@ const LandingPage: React.FC<{
           <ConnectWallet
             hideTestnetFaucet={false}
             theme={"dark"}
-            btnTitle={"Nomad3 Connect"}
+            btnTitle={"Start Nomading 🚀"}
             modalTitle={"Nomad3"}
             switchToActiveChain={true}
             modalSize={"wide"}
             welcomeScreen={{
-              title: "gm",
-              subtitle: "gm",
+              title: "Welcome to Nomad3",
+              subtitle:
+                "Are you ready to forge meaningful, memorable connections?",
               img: {
                 src: "",
                 width: 150,
