@@ -7,6 +7,12 @@ const ETHDenverCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'Car
     return (
         <div >
           <div>
+          <button className='bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300' onClick={() => onNavigate("CardOne")}>
+            <img src="/back.png" alt="Back" className="h-10 w-10" />
+            Back
+          </button>
+        </div>
+          <div>
             <button></button>
           </div>
           <div className="flex items-center justify-center">

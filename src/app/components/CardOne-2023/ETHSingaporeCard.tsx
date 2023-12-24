@@ -22,7 +22,7 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
             image="/hello.jpg" // Update with the path to your first image
           />
         </div>
-        <div className='flex justify-between mt-28 mx-40'>
+        <div className='flex justify-between mt-28 mx-40 z-20'>
           <PersonCard 
               name={"Cody"} 
               title="ETH Singapore" 
@@ -36,7 +36,7 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
               notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
             />
         </div>
-        <div className="flex justify-center items-center h-screen bg-black z-0">
+        <div className="flex justify-center items-center h-screen bg-black z-10">
           <div className="absolute border-2 border-white rounded-full w-[1000px] h-[1000px] flex items-center justify-center">
             {/* Outermost Circle */}
             <div className="absolute border-2 border-white rounded-full w-[800px] h-[800px] flex items-center justify-center">
@@ -65,8 +65,51 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
             />
         </div>
         <div className='mt-20 flex justify-center font-semibold text-2xl'>
-          Create Your Memories
+          Momentos
         </div>
+        <div className='grid grid-cols-5 gap-10 mx-20 mt-10'>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+          <div className='flex flex-col items-center'>
+            <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
+            <div className='text-white font-semibold mt-2'>Viction Event</div>
+          </div>
+        </div>
+        
       </div>
         
     );
