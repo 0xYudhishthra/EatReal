@@ -14,30 +14,11 @@ import LandingPage from "./components/LandingPage";
 
 const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<
-    | "MainPage"
-    | "CardOne"
-    | "CardTwo"
-    | "ETHSingaporeCard"
-    | "ETHDenverCard"
-    | "LandingPage"
-    | "ETHCC"
-    | "ETHLondon"
-    | "ETHSydney"
-    | "ETHTaipei"
+    "MainPage" | "CardOne" | "CardTwo" | "ETHSingaporeCard" | "ETHDenverCard" | 'LandingPage' |"ETHCC" | 'ETHLondon' | 'ETHSydney' |'ETHTaipei'
   >("LandingPage");
 
   const onNavigate = (
-    page:
-      | "MainPage"
-      | "CardOne"
-      | "CardTwo"
-      | "ETHSingaporeCard"
-      | "ETHDenverCard"
-      | "LandingPage"
-      | "ETHCC"
-      | "ETHLondon"
-      | "ETHSydney"
-      | "ETHTaipei"
+    page: "MainPage" | "CardOne" | "CardTwo" | "ETHSingaporeCard" | "ETHDenverCard" | 'LandingPage' |"ETHCC" | 'ETHLondon' | 'ETHSydney' |'ETHTaipei'
   ) => {
     setCurrentPage(page);
   };
@@ -45,18 +26,12 @@ const Home: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col">
       <main>
-        {currentPage === "LandingPage" && (
-          <LandingPage onNavigate={onNavigate} />
-        )}
+        {currentPage === "LandingPage" && <LandingPage onNavigate={onNavigate} />}
         {currentPage === "MainPage" && <MainPage onNavigate={onNavigate} />}
         {currentPage === "CardOne" && <CardOne onNavigate={onNavigate} />}
         {currentPage === "CardTwo" && <CardTwo onNavigate={onNavigate} />}
-        {currentPage === "ETHSingaporeCard" && (
-          <ETHSingaporeCard onNavigate={onNavigate} />
-        )}
-        {currentPage === "ETHDenverCard" && (
-          <ETHDenverCard onNavigate={onNavigate} />
-        )}
+        {currentPage === "ETHSingaporeCard" && <ETHSingaporeCard onNavigate={onNavigate} />}
+        {currentPage === "ETHDenverCard" && <ETHDenverCard onNavigate={onNavigate} />}
         {currentPage === "ETHCC" && <ETHCC onNavigate={onNavigate} />}
         {currentPage === "ETHLondon" && <ETHLondon onNavigate={onNavigate} />}
         {currentPage === "ETHSydney" && <ETHSydney onNavigate={onNavigate} />}
@@ -66,4 +41,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default LandingPage;
+export default Home;
