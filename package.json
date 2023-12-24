@@ -13,6 +13,7 @@
     "@particle-network/auth": "^1.2.2",
     "@particle-network/chains": "^1.3.2",
     "@particle-network/provider": "^1.2.1",
+    "@thirdweb-dev/auth": "^4.1.19",
     "@thirdweb-dev/chains": "^0.1.62",
     "@thirdweb-dev/react": "^4.1.17",
     "@thirdweb-dev/sdk": "^4.0.23",

@@ -2092,7 +2092,7 @@
     "@tanstack/query-core" "4.36.1"
     use-sync-external-store "^1.2.0"
 
-"@thirdweb-dev/auth@4.1.19":
+"@thirdweb-dev/auth@4.1.19", "@thirdweb-dev/auth@^4.1.19":
   version "4.1.19"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-4.1.19.tgz#ef6513f5205ca2cf1bf84fd1bec78ed69b87ba46"
   integrity sha512-EUwZbmFMZ5ZFaYAKz9GVL1S6kXDLPzFdVvduyN89fh2tlEoharbhMBoOxnbaeFjXW0vaIf6RmXZGxa9zfJXxfw==

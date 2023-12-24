@@ -10,6 +10,7 @@ import {
   // StorageDownloader,
   // IpfsUploader,
 } from "./components/ThirdWebProvider";
+import { TomochainTestnet } from "@thirdweb-dev/chains";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,13 +41,8 @@ export default function RootLayout({
     <ThirdwebProvider
       supportedWallets={[smartWalletConfig, localWalletConfig]}
       activeChain={{
-        // === Required information for connecting to the network === \\
-        chainId: 89, // Chain ID of the network
-        // Array of RPC URLs to use
-        rpc: ["https://rpc-testnet.viction.xyz"],
-
-        // === Information for adding the network to your wallet (how it will appear for first time users) === \\
-        // Information about the chain's native currency (i.e. the currency that is used to pay for gas)
+        ...TomochainTestnet,
+        rpc: ["https://rpc-testnet.viction.xyz"], // Override the "rpc" field.
         nativeCurrency: {
           decimals: 18,
           name: "Viction",
