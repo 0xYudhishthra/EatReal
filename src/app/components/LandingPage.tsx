@@ -31,10 +31,30 @@ const LandingPage: React.FC<{
 
   const { data, isLoading, error } = useContractRead(
     Nomad3,
-    "eventMinterContractAddress"
+    "getYears",
+    [],
+    {
+      from: address
+    }
   );
 
-  console.log(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setYearsData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [Nomad3, address, data]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const intValue = /^\d+$/.test(value) ? parseInt(value, 10) : "";
+    setInputValue(intValue);
+  };
 
   const {
     mutateAsync,
@@ -69,17 +89,28 @@ const LandingPage: React.FC<{
               </div>
             ))}
           </div>
-          <Web3Button
-            contractAddress={Nomad3?.getAddress() || ""}
-            contractAbi={Nomad3?.abi}
-            // Calls the "setName" function on your smart contract with "My Name" as the first argument
-            action={() => mutateAsync({ args: [2019] })}
-            onSubmit={() => console.log("Transaction submitted")}
-            onSuccess={(result) => console.log(result)}
-            onError={(error) => console.log(error)}
-          >
-            Send Transaction
-          </Web3Button>
+          <div className="p-5">
+            <input
+              type="text"
+              pattern="\d*"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="Enter Year"
+              className="text-black mr-8" // Added mb-3 for bottom margin
+            />
+
+            <Web3Button
+              contractAddress={Nomad3?.getAddress() || ""}
+              contractAbi={Nomad3?.abi}
+              action={() => mutateAsync({ args: [ethers.BigNumber.from(inputValue)] })}
+              onSubmit={() => console.log("Transaction submitted")}
+              onSuccess={(result) => console.log(result)}
+              onError={(error) => console.log(error)}
+              className="ml-8" // Added mb-3 for bottom margin
+            >
+              Send Transaction
+            </Web3Button>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center flex-1">
@@ -87,14 +118,13 @@ const LandingPage: React.FC<{
           <ConnectWallet
             hideTestnetFaucet={false}
             theme={"dark"}
-            btnTitle={"Start Nomading 🚀"}
+            btnTitle={"Nomad3 Connect"}
             modalTitle={"Nomad3"}
             switchToActiveChain={true}
             modalSize={"wide"}
             welcomeScreen={{
-              title: "Welcome to Nomad3",
-              subtitle:
-                "Are you ready to forge meaningful, memorable connections?",
+              title: "gm",
+              subtitle: "gm",
               img: {
                 src: "",
                 width: 150,
