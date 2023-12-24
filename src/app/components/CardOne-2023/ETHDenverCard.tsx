@@ -25,6 +25,9 @@ const ETHDenverCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'Car
               image="/hello.jpg" // Update with the path to your first image
             />
           </div>
+          <div className='flex items-center justify-center mt-36 '>
+            <div className='text-3xl text-white font-bold'>Connections</div>
+          </div>
           <div className='flex justify-between mt-28 mx-40'>
             <PersonCard 
               name={"Kokona Matata"} 

@@ -20,8 +20,8 @@ const ETHLondon: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo
             />
           </div>
           <div className='flex items-center justify-center mt-36 '>
-      <div className='text-3xl text-white font-bold'>Connections</div>
-    </div>
+            <div className='text-3xl text-white font-bold'>Connections</div>
+          </div>
           <div className='flex justify-between mx-24 '>
           <div className='absolute top-3/4 left-80 z-10'>
           <PersonCard 
