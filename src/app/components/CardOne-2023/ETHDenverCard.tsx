@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Cards from '../Cards';
 import PersonCard from '../PersonCard';
 
-const ETHDenverCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHDenverCard' ) => void }> = ({ onNavigate }) => {
+const ETHDenverCard: React.FC<{ onNavigate: (page: 'LandingPage' | 'CardOne' | 'CardTwo' | 'ETHDenverCard' ) => void }> = ({ onNavigate }) => {
     return (
         <div >
           <div>

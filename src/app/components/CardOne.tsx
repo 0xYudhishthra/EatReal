@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cards from '../components/Cards';
 import EventCard from './EventCard';
 
-const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard' | 'ETHDenverCard' | 'ETHCC') => void }> = ({ onNavigate }) => {
+const CardOne: React.FC<{ onNavigate: (page: 'LandingPage' | 'CardOne' | 'CardTwo' | 'ETHSingaporeCard' | 'ETHDenverCard' | 'ETHCC') => void }> = ({ onNavigate }) => {
   const [isAnimationEnabled, setAnimationEnabled] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const CardOne: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
             eventsCount={32}
             title="The 'Degen'"
             poweredBy="powered by ERC-6551"
-            onNavigate={() => onNavigate("MainPage")}
+            onNavigate={() => onNavigate("LandingPage")}
             image="/hello.jpg"
           />
         </div>

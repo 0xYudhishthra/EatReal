@@ -4,7 +4,7 @@ import EventCard from '../components/EventCard';
 
 
 // Main App component where you use the card component
-const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 'ETHLondon' | 'ETHTaipei' | 'ETHSydney') => void }> = ({ onNavigate }) => {
+const CardTwo: React.FC<{ onNavigate: (page: 'LandingPage' | 'CardOne' | 'CardTwo' | 'ETHLondon' | 'ETHTaipei' | 'ETHSydney') => void }> = ({ onNavigate }) => {
   const [isAnimationEnabled, setAnimationEnabled] = useState(false);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
             eventsCount={32}
             title="The 'Degen'"
             poweredBy="powered by ERC-6551"
-            onNavigate={() => onNavigate("MainPage")}
+            onNavigate={() => onNavigate("LandingPage")}
             image="/3.jpeg" // Update with the path to your second image
           />
         </div>
