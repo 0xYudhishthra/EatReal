@@ -9,6 +9,7 @@ import {
 } from "@thirdweb-dev/react";
 import Cards from "../components/Cards";
 import { useNomad3 } from "./ContractInteractions";
+import { ethers } from "ethers";
 
 const LandingPage: React.FC<{
   onNavigate: (
@@ -34,6 +35,12 @@ const LandingPage: React.FC<{
   );
 
   console.log(data);
+
+  const {
+    mutateAsync,
+    isLoading: createYearLoading,
+    error: createYearError,
+  } = useContractWrite(Nomad3, "createYear");
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -71,6 +78,17 @@ const LandingPage: React.FC<{
               />
             </div>
           </div>
+          <Web3Button
+            contractAddress={Nomad3?.getAddress() || ""}
+            contractAbi={Nomad3?.abi}
+            // Calls the "setName" function on your smart contract with "My Name" as the first argument
+            action={() => mutateAsync({ args: [2019] })}
+            onSubmit={() => console.log("Transaction submitted")}
+            onSuccess={(result) => console.log(result)}
+            onError={(error) => console.log(error)}
+          >
+            Send Transaction
+          </Web3Button>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center flex-1">
