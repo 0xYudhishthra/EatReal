@@ -24,6 +24,8 @@ walletConfig.meta.name = "Nomad3 Smart Account"; // change the name of the walle
 const smartWalletConfig = smartWallet(walletConfig, {
   factoryAddress: "0x1665b4B7047a76aC42B4cf9453120DD9a16583Ba",
   gasless: true,
+  bundlerUrl: "https://bundler.particle.network?chainId=89",
+  paymasterUrl: `https://paymaster.particle.network?chainId=89&projectUuid=${process.env.NEXT_PUBLIC_PROJECT_ID}&projectKey=${process.env.NEXT_PUBLIC_CLIENT_KEY}`,
 });
 
 const localWalletConfig = localWallet();
