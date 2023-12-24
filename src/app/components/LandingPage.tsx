@@ -80,7 +80,6 @@ const LandingPage: React.FC<{
           <Web3Button
             contractAddress={Nomad3?.getAddress() || ""}
             contractAbi={Nomad3?.abi}
-            // Calls the "setName" function on your smart contract with "My Name" as the first argument
             action={() => mutateAsync({ args: [2018] })}
             onSubmit={() => console.log("Transaction submitted")}
             onSuccess={(result) => console.log(result)}
@@ -95,13 +94,14 @@ const LandingPage: React.FC<{
           <ConnectWallet
             hideTestnetFaucet={false}
             theme={"dark"}
-            btnTitle={"Nomad3 Connect"}
+            btnTitle={"Start Nomading 🚀"}
             modalTitle={"Nomad3"}
             switchToActiveChain={true}
             modalSize={"wide"}
             welcomeScreen={{
-              title: "gm",
-              subtitle: "gm",
+              title: "Welcome to Nomad3",
+              subtitle:
+                "Are you ready to forge meaningful, memorable connections?",
               img: {
                 src: "",
                 width: 150,

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import {
   ThirdwebProvider,
-  // smartWallet,
+  embeddedWalletConfig,
   smartWalletConfig,
   localWalletConfig,
   // ThirdwebStorage,
@@ -39,9 +39,13 @@ export default function RootLayout({
 }) {
   return (
     <ThirdwebProvider
-      supportedWallets={[smartWalletConfig, localWalletConfig]}
+      supportedWallets={[
+        smartWalletConfig,
+        embeddedWalletConfig,
+        localWalletConfig,
+      ]}
       activeChain={{
-        ...TomochainTestnet,
+        chainId: 89,
         rpc: ["https://rpc-testnet.viction.xyz"], // Override the "rpc" field.
         nativeCurrency: {
           decimals: 18,
@@ -54,7 +58,7 @@ export default function RootLayout({
         chain: "Viction Testnet", // Name of the network
         name: "Viction Testnet", // Name of the network
         icon: {
-          url: "ipfs://QmcxZHpyJa8T4i63xqjPYrZ6tKrt55tZJpbXcjSDKuKaf9/optimism/512.png",
+          url: "ipfs://QmcqEMjPL3TAy9FBfR7P3Hd21dyCizC1TaHspQ37W7Leco/Logo_FA_Viction_Logomark_SmallUse_Beige.png",
           width: 512,
           height: 512,
           format: "png",
