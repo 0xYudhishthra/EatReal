@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import {
   ConnectWallet,
   useAddress,
@@ -29,10 +29,9 @@ const LandingPage: React.FC<{
     error: nomad3Error,
   } = useNomad3();
 
-  const { data, isLoading, error } = useContractRead(
-    Nomad3,
-    "eventMinterContractAddress"
-  );
+  const { data, isLoading, error } = useContractRead(Nomad3, "getYears", [], {
+    from: address,
+  });
 
   console.log(data);
 
@@ -82,7 +81,7 @@ const LandingPage: React.FC<{
             contractAddress={Nomad3?.getAddress() || ""}
             contractAbi={Nomad3?.abi}
             // Calls the "setName" function on your smart contract with "My Name" as the first argument
-            action={() => mutateAsync({ args: [2019] })}
+            action={() => mutateAsync({ args: [2018] })}
             onSubmit={() => console.log("Transaction submitted")}
             onSuccess={(result) => console.log(result)}
             onError={(error) => console.log(error)}
