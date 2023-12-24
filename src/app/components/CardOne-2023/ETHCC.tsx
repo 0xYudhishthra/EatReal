@@ -19,21 +19,25 @@ const ETHCC: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' | 
               image="/hello.jpg" // Update with the path to your first image
             />
           </div>
+          <div className='flex justify-between  mx-24 '></div>
+          <div className='text-3xl text-white font-bold'>Connections</div>
           <div className='flex justify-between mt-28 mx-40'>
+            <div className='absolute top-2/4 left-80 z-10'>
             <PersonCard 
               name={"Alexander Ginorrel"} 
-              score="Score: 80"
               title="ETH CC" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met Alexander at the Viction event. He's the Project Manager of the Viction team."
             />
+            </div>
+            <div className='absolute top-3/4 right-96 z-10'>
             <PersonCard 
               name={"Picioso Wazowski"} 
-              score="Score: 100"
               title="ETH CC" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met Picioso at the Viction event. He's the Project Manager of the Viction team."
             />
+            </div>
           </div>
           <div className="flex items-center justify-center h-screen">
             <div className="flex justify-center items-center h-screen bg-black z-0">

@@ -19,24 +19,24 @@ const ETHLondon: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo
               image="/hello.jpg" // Update with the path to your first image
             />
           </div>
-          <div className='flex items-center justify-center mt-36'>
+          <div className='flex items-center justify-center mt-36 '>
       <div className='text-3xl text-white font-bold'>Connections</div>
     </div>
-          <div className='flex justify-between  mx-24 '>
+          <div className='flex justify-between mx-24 '>
+          <div className='absolute top-3/4 left-80 z-10'>
           <PersonCard 
-              name={"Alexander Ginorrel"} 
-              score="Score: 80"
-              title="ETH London" 
-              image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met Alexander at the Viction event. He's the Project Manager of the Viction team."
-            />
-            <PersonCard 
-              name={"Picioso Wazowski"} 
-              score="Score: 100"
-              title="ETH London" 
-              image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met Picioso at the Viction event. He's the Project Manager of the Viction team."
-            />
+          name={"Alexander Ginorrel"} 
+          title="ETH London" 
+          image="/hello.jpg" // Update with the path to your image
+          notes="Notes: I met Alexander at the Viction event. He's the Project Manager of the Viction team."
+          /></div>
+          <div></div>
+          <PersonCard 
+            name={"Picioso Wazowski"} 
+            title="ETH London" 
+            image="/hello.jpg" // Update with the path to your first image
+            notes="Notes: I met Picioso at the Viction event. He's the Project Manager of the Viction team."
+          />
           </div>
           <div className="flex items-center justify-center h-screen">
   <div className="relative">
