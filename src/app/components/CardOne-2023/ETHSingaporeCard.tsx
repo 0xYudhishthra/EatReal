@@ -25,14 +25,12 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
         <div className='flex justify-between mt-28 mx-40 z-20'>
           <PersonCard 
               name={"Cody"} 
-              score="Score: 80" 
               title="ETH Singapore" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
             />
             <PersonCard 
               name={"Victoria Mitchell"} 
-              score="Score: 56" 
               title="ETH Singapore" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
@@ -55,14 +53,12 @@ const ETHSingaporeCard: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | '
         <div className='flex justify-between mx-40'>
         <PersonCard 
               name={"Cody"} 
-              score="Score: 80" 
               title="ETH Singapore" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
             />
             <PersonCard 
               name={"Victoria Mitchell"} 
-              score="Score: 56" 
               title="ETH Singapore" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."

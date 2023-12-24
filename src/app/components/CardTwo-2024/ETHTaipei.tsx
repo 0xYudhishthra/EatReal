@@ -28,14 +28,12 @@ const ETHTaipei: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo
           <div className='flex justify-between mt-28 mx-40'>
           <PersonCard 
               name={"Cody"} 
-              score="Score: 80" 
               title="ETH Taipei" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
             />
             <PersonCard 
               name={"Victoria Mitchell"} 
-              score="Score: 56" 
               title="ETH Taipei" 
               image="/hello.jpg" // Update with the path to your first image
               notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
