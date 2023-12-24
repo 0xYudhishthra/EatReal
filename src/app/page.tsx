@@ -64,6 +64,7 @@ const Home: React.FC = () => {
     // handle connect
     <div className="flex min-h-screen flex-col">
       <ConnectWallet
+        hideTestnetFaucet={false}
         theme={"dark"}
         btnTitle={"Nomad3 Connect"}
         modalTitle={"Nomad3"}

@@ -63,6 +63,7 @@ export default function RootLayout({
           height: 512,
           format: "png",
         },
+        faucets: ["https://faucet-testnet.viction.xyz/"],
       }}
       clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
       autoConnect={true}
