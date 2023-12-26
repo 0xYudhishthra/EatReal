@@ -69,7 +69,7 @@ const LandingPage: React.FC<{
           <div className="flex justify-between">
             <header className="header">
               <h1>Nomad3</h1>
-              <p>Click here to see what's AFI is in your NFT</p>
+              <p>Click here to see what&apos;s AFI is in your NFT</p>
             </header>
             <div>
               <ConnectWallet />
