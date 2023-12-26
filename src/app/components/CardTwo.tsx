@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Cards from '../components/Cards';
 import EventCard from '../components/EventCard';
 
 
 // Main App component where you use the card component
-const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' |'ETHSingaporeCard') => void }> = ({ onNavigate }) => {
+const CardTwo: React.FC<{ onNavigate: (page: 'LandingPage' | 'CardOne' | 'CardTwo' | 'ETHLondon' | 'ETHTaipei' | 'ETHSydney') => void }> = ({ onNavigate }) => {
+  const [isAnimationEnabled, setAnimationEnabled] = useState(false);
+
+  useEffect(() => {
+    // Enable animation after component is mounted
+    setAnimationEnabled(true);
+  }, []);
+  
   return (
     <div className="app">
       <header className="header">
@@ -18,7 +25,7 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
             eventsCount={32}
             title="The 'Degen'"
             poweredBy="powered by ERC-6551"
-            onNavigate={() => onNavigate("MainPage")}
+            onNavigate={() => onNavigate("LandingPage")}
             image="/3.jpeg" // Update with the path to your second image
           />
         </div>
@@ -27,31 +34,31 @@ const CardTwo: React.FC<{ onNavigate: (page: 'MainPage' | 'CardOne' | 'CardTwo' 
           <div className="relative pl-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 ">
             {/* First card */}
-            <div className="md:col-span-3 md:col-start-1 relative z-72">
+            <div className={`md:col-span-3 md:col-start-1 relative z-0 right-0 transform hover:right-20 duration-500 ease-in-out ${isAnimationEnabled ? 'opacity-100' : 'opacity-0'}`}>
               <EventCard
-                title="ETH Sinagpore"
+                title="ETH London"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("ETHLondon")}
                 image="/1.jpeg"
               />
             </div>
 
             {/* Second card */}
-            <div className="md:col-span-3 md:col-start-1 absolute z-20 left-80">
+            <div className={`md:col-span-3 md:col-start-1 absolute z-10 left-44 transform hover:left-24 duration-500 ease-in-out ${isAnimationEnabled ? 'opacity-100' : 'opacity-0'}`}>
               <EventCard
-                title="ETH Denver"
+                title="ETH Taipei"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("ETHTaipei")}
                 image="/2.jpeg"
               />
             </div>
 
             {/* Third card */}
-            <div className="md:col-span-3 md:col-start-1 absolute z-10 left-44">
+            <div className={`md:col-span-3 md:col-start-1 absolute z-20 left-80 transform hover:left-60 duration-500 ease-in-out ${isAnimationEnabled ? 'opacity-100' : 'opacity-0'}`}>
               <EventCard
-                title="ETH CC"
+                title="ETH Sydney"
                 connection='Connetions: 5'
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("ETHSydney")}
                 image="/3.jpeg"
               />
             </div>
