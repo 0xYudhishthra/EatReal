@@ -144,8 +144,8 @@ const LandingPage: React.FC<{
                 switchToActiveChain={true}
                 modalSize={"wide"}
                 welcomeScreen={{
-                  title: "gm",
-                  subtitle: "gm",
+                  title: "~No Private Keys and Seed Phrases~",
+                  subtitle: "a seamless journey to meaningful memorable connections starts here",
                   img: {
                     src: "Logo.png",
                     width: 250,
