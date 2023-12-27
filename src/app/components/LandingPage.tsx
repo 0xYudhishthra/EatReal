@@ -117,7 +117,7 @@ const LandingPage: React.FC<{
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="Enter Year"
-                className="text-black mr-8"
+                className="justify-center flex-1 text-black mr-8 p-2 rounded border-2 border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 transition duration-200 ease-in-out "
               />
               <Web3Button
                 contractAddress={Nomad3?.getAddress() || ""}
@@ -134,12 +134,12 @@ const LandingPage: React.FC<{
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center flex-1 text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-800 dark:text-white mb-15">
-            <h2>Connect a personal wallet to view your owned NFTs</h2>
+            <img src="/Logo.png" alt="Descriptive Text" style={{ width: '200px', height: 'auto' }}/> 
             <div className="pt-7">
               <ConnectWallet
                 hideTestnetFaucet={false}
                 theme={"dark"}
-                btnTitle={"Nomad3 Connect"}
+                btnTitle={"Start Nomading 🚀"}
                 modalTitle={"Nomad3"}
                 switchToActiveChain={true}
                 modalSize={"wide"}
@@ -147,9 +147,9 @@ const LandingPage: React.FC<{
                   title: "gm",
                   subtitle: "gm",
                   img: {
-                    src: "",
-                    width: 150,
-                    height: 150,
+                    src: "Logo.png",
+                    width: 250,
+                    height: 250,
                   },
                 }}
                 modalTitleIconUrl={""}

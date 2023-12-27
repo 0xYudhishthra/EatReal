@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Cards from "../components/Cards";
 import EventCard from "./EventCard";
 
@@ -20,8 +20,27 @@ const CardOne: React.FC<{
     setAnimationEnabled(true);
   }, []);
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.85; 
+    }
+  }, []);
+
   return (
     <div className="app">
+      <video ref={videoRef} autoPlay loop muted style={{ 
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            top: 0,
+            left: 0,
+            zIndex: "-1"
+        }}>
+          <source src="/Background.mp4" type="video/mp4" />
+        </video>
       <header className="header">
         <h1>Nomad3</h1>
         <p>Click here to see what&apos;s AFI is in your NFT</p>
