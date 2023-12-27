@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ConnectWallet,
   contractType,
@@ -12,6 +12,7 @@ import Cards from "../components/Cards";
 import { useNomad3 } from "./ContractInteractions";
 import { ethers } from "ethers";
 import { BigNumber } from 'ethers';
+
 
 const LandingPage: React.FC<{
   onNavigate: (
@@ -62,81 +63,103 @@ const LandingPage: React.FC<{
     error: createYearError,
   } = useContractWrite(Nomad3, "createYear");
 
-  return (
-    <div className="flex min-h-screen flex-col">
-      {address ? (
-        <div className="app">
-          <div className="flex justify-between">
-            <header className="header">
-              <h1>Nomad3</h1>
-              <p>Click here to see what&apos;s AFI is in your NFT</p>
-            </header>
-            <div>
-              <ConnectWallet />
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.85; 
+    }
+  }, []);
+
+    return (
+      <div className="relative flex min-h-screen flex-col">
+        <video ref={videoRef} autoPlay loop muted style={{ 
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            top: 0,
+            left: 0,
+            zIndex: "-1"
+        }}>
+          <source src="/Background.mp4" type="video/mp4" />
+        </video>
+  
+        {address ? (
+          <div className="app">
+            <div className="flex justify-between">
+              <header className="header">
+                <h1>Nomad3</h1>
+                <p>Click here to see what&apos;s AFI is in your NFT</p>
+              </header>
+              <div>
+                <ConnectWallet />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
+              {yearsData && yearsData.map((year, index) => (
+                <div key={index} className="md:col-span-4 col-start-3 p-8">
+                  <Cards
+                    year={parseInt(year._hex, 16).toString()}
+                    eventsCount={32}
+                    title={`The 'Degen' - Year ${parseInt(year._hex, 16).toString()}`}
+                    poweredBy="powered by ERC-6551"
+                    onNavigate={() => onNavigate("CardOne")}
+                    image={`1.jpeg`}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="p-5">
+              <input
+                type="text"
+                pattern="\d*"
+                value={inputValue}
+                onChange={handleInputChange}
+                placeholder="Enter Year"
+                className="text-black mr-8"
+              />
+              <Web3Button
+                contractAddress={Nomad3?.getAddress() || ""}
+                contractAbi={Nomad3?.abi}
+                action={() => mutateAsync({ args: [ethers.BigNumber.from(inputValue)] })}
+                onSubmit={() => console.log("Transaction submitted")}
+                onSuccess={(result) => console.log(result)}
+                onError={(error) => console.log(error)}
+                className="ml-8"
+              >
+                Send Transaction
+              </Web3Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
-            {yearsData && yearsData.map((year, index) => (
-              <div key={index} className="md:col-span-4 col-start-3 p-8">
-                <Cards
-                  year={parseInt(year._hex, 16).toString()}   // Access the value from the _hex property
-                  eventsCount={32}
-                  title={`The 'Degen' - Year ${parseInt(year._hex, 16).toString()}`} // Convert here as well                  
-                  poweredBy="powered by ERC-6551"
-                  onNavigate={() => onNavigate("CardOne")}
-                  image={`1.jpeg`}// to fetch later using react hook
-                />
-              </div>
-            ))}
+        ) : (
+          <div className="flex flex-col items-center justify-center flex-1 text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-800 dark:text-white mb-15">
+            <h2>Connect a personal wallet to view your owned NFTs</h2>
+            <div className="pt-7">
+              <ConnectWallet
+                hideTestnetFaucet={false}
+                theme={"dark"}
+                btnTitle={"Nomad3 Connect"}
+                modalTitle={"Nomad3"}
+                switchToActiveChain={true}
+                modalSize={"wide"}
+                welcomeScreen={{
+                  title: "gm",
+                  subtitle: "gm",
+                  img: {
+                    src: "",
+                    width: 150,
+                    height: 150,
+                  },
+                }}
+                modalTitleIconUrl={""}
+              />
+            </div>
           </div>
-          <div className="p-5">
-            <input
-              type="text"
-              pattern="\d*"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder="Enter Year"
-              className="text-black mr-8" // Added mb-3 for bottom margin
-            />
-
-            <Web3Button
-              contractAddress={Nomad3?.getAddress() || ""}
-              contractAbi={Nomad3?.abi}
-              action={() => mutateAsync({ args: [ethers.BigNumber.from(inputValue)] })}
-              onSubmit={() => console.log("Transaction submitted")}
-              onSuccess={(result) => console.log(result)}
-              onError={(error) => console.log(error)}
-              className="ml-8" // Added mb-3 for bottom margin
-            >
-              Send Transaction
-            </Web3Button>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center flex-1">
-          <h2>Connect a personal wallet to view your owned NFTs</h2>
-          <ConnectWallet
-            hideTestnetFaucet={false}
-            theme={"dark"}
-            btnTitle={"Nomad3 Connect"}
-            modalTitle={"Nomad3"}
-            switchToActiveChain={true}
-            modalSize={"wide"}
-            welcomeScreen={{
-              title: "gm",
-              subtitle: "gm",
-              img: {
-                src: "",
-                width: 150,
-                height: 150,
-              },
-            }}
-            modalTitleIconUrl={""}
-          />
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div>
+    );
+  
 };
 
 export default LandingPage;
