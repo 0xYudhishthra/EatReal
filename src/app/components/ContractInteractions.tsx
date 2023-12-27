@@ -1661,26 +1661,30 @@ const ERC6551AccountABI = [
 ];
 
 export const useNomad3 = () => {
-  return useContract("0x922b5E08eCBEb700f7e8fFBc017c3B1615924C2f", Nomad3ABI);
+  return useContract("0xaD726d557EaD07AaBCcee6d1fD8e83c4902F9575", Nomad3ABI);
 };
 
 export const useNomad3Drops = () => {
   return useContract(
-    "0xeb437c80f8Ed75eAeDa2FD82dFad119AbE1D8E3E",
+    "0xEdf7922DdCBc630dFf31539E9CBC064e389bB918",
     Nomad3DropsABI
   );
 };
 
 export const useERC6551Registry = () => {
   return useContract(
-    "0x7b2f437dCe34e34418AEA671a3F487769F87dEc2",
+    "0xc6B017F233C7DAEFCE36974fA4cA9b044470766e",
     ERC6551RegistryABI
   );
 };
 
 export const useERC6551Account = () => {
   return useContract(
-    "0x11fec6659A1A1f187a654ECBc86cE7887AaEf223",
+    "0xED1cd1D2bFB9f456e63840Cce9f5C29B320066D5",
     ERC6551AccountABI
   );
+};
+
+export const connectToERC6551Account = (tbaAddress: string) => {
+  return useContract(tbaAddress, ERC6551AccountABI);
 };
