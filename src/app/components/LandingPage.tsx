@@ -16,10 +16,9 @@ const LandingPage: React.FC<{
   onNavigate: (
     page:
       | "MainPage"
-      | "CardOne"
+      | "ExpendCard"
       | "CardTwo"
-      | "ETHSingaporeCard"
-      | "ETHDenverCard"
+      | "EventExtendCard"
   ) => void;
 }> = ({ onNavigate }) => {
   const address = useAddress();
@@ -127,7 +126,7 @@ const LandingPage: React.FC<{
                       16
                     ).toString()}`}
                     poweredBy="powered by ERC-6551"
-                    onNavigate={() => onNavigate("CardOne")}
+                    onNavigate={() => onNavigate("ExpendCard")}
                     image={`1.jpeg`}
                   />
                 </div>

@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import Cards from "../components/Cards";
+import Cards from "./Cards";
 import EventCard from "./EventCard";
 
-const CardOne: React.FC<{
+const ExpendCard: React.FC<{
   onNavigate: (
     page:
       | "LandingPage"
-      | "CardOne"
-      | "CardTwo"
-      | "ETHSingaporeCard"
-      | "ETHDenverCard"
-      | "ETHCC"
+      | "ExpendCard"
+
   ) => void;
 }> = ({ onNavigate }) => {
   const [isAnimationEnabled, setAnimationEnabled] = useState(false);
@@ -67,34 +64,8 @@ const CardOne: React.FC<{
               <EventCard
                 title="ETH Singapore"
                 connection="Connetions: 5"
-                onNavigate={() => onNavigate("ETHSingaporeCard")}
+                onNavigate={() => onNavigate("EventExtendCard")}
                 image="/1.jpeg"
-              />
-            </div>
-            {/* Second card */}
-            <div
-              className={`md:col-span-3 md:col-start-1 absolute z-10 left-44 transform hover:left-24 duration-500 ease-in-out ${
-                isAnimationEnabled ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <EventCard
-                title="ETH CC"
-                connection="Connetions: 5"
-                onNavigate={() => onNavigate("ETHCC")}
-                image="/3.jpeg"
-              />
-            </div>
-            x{/* Third card */}
-            <div
-              className={`md:col-span-3 md:col-start-1 absolute z-20 left-80 transform hover:left-60 duration-500 ease-in-out ${
-                isAnimationEnabled ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <EventCard
-                title="ETH Denver"
-                connection="Connetions: 5"
-                onNavigate={() => onNavigate("ETHDenverCard")}
-                image="/2.jpeg"
               />
             </div>
           </div>
@@ -104,4 +75,4 @@ const CardOne: React.FC<{
   );
 };
 
-export default CardOne;
+export default ExpendCard;

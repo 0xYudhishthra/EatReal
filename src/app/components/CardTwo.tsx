@@ -7,7 +7,7 @@ const CardTwo: React.FC<{
   onNavigate: (
     page:
       | "LandingPage"
-      | "CardOne"
+      | "ExpendCard"
       | "CardTwo"
       | "ETHLondon"
       | "ETHTaipei"

@@ -8,9 +8,9 @@ const MainPage: React.FC<{
   onNavigate: (
     page:
       | "MainPage"
-      | "CardOne"
+      | "ExpendCard"
       | "CardTwo"
-      | "ETHSingaporeCard"
+      | "EventExtendCard"
       | "ETHDenverCard"
   ) => void;
 }> = ({ onNavigate }) => {
@@ -30,7 +30,7 @@ const MainPage: React.FC<{
             eventsCount={32}
             title="The 'Degen'"
             poweredBy="powered by ERC-6551"
-            onNavigate={() => onNavigate("CardOne")}
+            onNavigate={() => onNavigate("ExpendCard")}
             image="/hello.jpg"
           />
         </div>
