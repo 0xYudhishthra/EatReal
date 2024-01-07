@@ -13,7 +13,10 @@ import {
   useContractWrite,
   Web3Button,
 } from "@thirdweb-dev/react";
-import { useNomad3Drops } from "../../components/ContractInteractions";
+import {
+  useNomad3,
+  useNomad3Drops,
+} from "../../components/ContractInteractions";
 import { ethers, BigNumber } from "ethers";
 import { QrReader } from "react-qr-reader";
 
@@ -24,11 +27,13 @@ const ExpendCard: React.FC<{
   const [isAnimationEnabled, setAnimationEnabled] = useState(false);
   const router = useRouter();
   const [eventId, setEventId] = useState<BigNumber>(BigNumber.from(0));
+  const [eventsData, setEventsData] = useState<[]>([]);
   const [showScanner, setShowScanner] = useState(false);
   const [buttonText, setButtonText] = useState(
     "Scan QR Code to fetch Event ID"
   );
 
+  const { contract: Nomad3 } = useNomad3();
   const { contract: Nomad3Drops } = useNomad3Drops();
 
   const {
@@ -36,6 +41,31 @@ const ExpendCard: React.FC<{
     isLoading: isMintingNFT,
     error: mintNFTError,
   } = useContractWrite(Nomad3Drops, "mintNFT");
+
+  const { data, isLoading, error } = useContractRead(
+    Nomad3,
+    "getEvents",
+    [params.year],
+    {
+      from: address,
+    }
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setEventsData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
 
   useEffect(() => {
     // Enable animation after component is mounted
@@ -142,6 +172,13 @@ const ExpendCard: React.FC<{
                   videoStyle={{ width: "100%", height: "100%" }}
                 />
               </div>
+              {/* cancel button */}
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+                onClick={() => setShowScanner(false)}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         )}
