@@ -210,7 +210,11 @@ const ExpendCard: React.FC<{
                   <EventCard
                     title={`Event ${index}`}
                     connection={`Connections: ${index * 3}`} // Example data
-                    onNavigate={() => router.push(`/event/${index}`)}
+                    onNavigate={() =>
+                      router.push(
+                        `/year/${params.year}/0x75dFC61417A32224196ccE4e0CB2081CCFa843A2`
+                      )
+                    }
                     image={`/event_${index}.jpeg`}
                   />
                 </div>
