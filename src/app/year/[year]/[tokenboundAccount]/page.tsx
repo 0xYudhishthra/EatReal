@@ -1,19 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import Cards from "./Cards";
-import PersonCard from "./PersonCard";
+import Cards from "../../../components/Cards";
+import PersonCard from "../../../components/PersonCard";
+import { useRouter } from "next/navigation";
 
 const EventExtendCard: React.FC<{
-  onNavigate: (
-    page: "LandingPage" | "ExpendCard" | "CardTwo" | "EventExtendCard"
-  ) => void;
-}> = ({ onNavigate }) => {
+  params: { tokenboundAccount: string };
+}> = ({ params }) => {
+  const router = useRouter();
+
   return (
     <div>
       <div>
         <button
           className="bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300"
-          onClick={() => onNavigate("ExpendCard")}
+          onClick={() => router.back()}
         >
           <img src="/back.png" alt="Back" className="h-10 w-10" />
           Back
@@ -23,9 +24,9 @@ const EventExtendCard: React.FC<{
         <Cards
           year={"2023"}
           eventsCount={0}
-          title="ETH Singapore"
+          title={params.tokenboundAccount}
           poweredBy="powered by ERC-6551"
-          onNavigate={() => onNavigate("ExpendCard")}
+          onNavigate={() => router.back()}
           image="/hello.jpg" // Update with the path to your first image
         />
       </div>
