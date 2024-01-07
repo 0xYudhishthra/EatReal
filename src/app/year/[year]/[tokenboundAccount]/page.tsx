@@ -46,7 +46,7 @@ const EventExtendCard: React.FC<{
           title={params.tokenboundAccount}
           poweredBy="powered by ERC-6551"
           onNavigate={() => router.back()}
-          image="/hello.jpg" // Update with the path to your first image
+          image="/PlaceA.jpg" // Update with the path to your first image
         />
       </div>
       <div className="flex items-center justify-center mt-36 ">

@@ -88,11 +88,15 @@ const ExpendCard: React.FC<{
         <source src="/Background.mp4" type="video/mp4" />
       </video>
       <div>
-        <header className="header">
-          <h1>Nomad3</h1>
-          <p>Click here to see what&apos;s AFI is in your NFT</p>
-          <ConnectWallet />
-        </header>
+      <div className="flex justify-between">
+            <header className="header">
+              <h1>Nomad3</h1>
+              <p>Click here to see what&apos;s AFI is in your NFT</p>
+            </header>
+            <div>
+              <ConnectWallet />
+            </div>
+          </div>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
           <div className="md:col-span-4 md:col-start-3 lg:col-start-3 xl:col-start-3">
             <Cards
@@ -101,7 +105,7 @@ const ExpendCard: React.FC<{
               title="The 'Degen'"
               poweredBy="powered by ERC-6551"
               onNavigate={() => router.push("/")}
-              image="/hello.jpg"
+              image="/PlaceA.jpg"
             />
           </div>
 
