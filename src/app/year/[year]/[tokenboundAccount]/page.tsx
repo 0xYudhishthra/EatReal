@@ -4,12 +4,15 @@ import Cards from "../../../components/Cards";
 import PersonCard from "../../../components/PersonCard";
 import { useRouter } from "next/navigation";
 import { useAddress } from "@thirdweb-dev/react";
+import { useStorageUpload } from '@thirdweb-dev/react';
 
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
 }> = ({ params }) => {
   const router = useRouter();
   const address = useAddress();
+  const [imageUri, setImageUri] = useState("");
+  const { mutateAsync: upload } = useStorageUpload();
 
   useEffect(() => {
     if (!address) {
@@ -27,6 +30,25 @@ const EventExtendCard: React.FC<{
       </div>
     );
   }
+
+  const uploadData = async (file) => {
+    try {
+      // This uploads the file and returns the URI
+      const uris = await upload({ data: file });
+      console.log('File uploaded:', uris);
+      setImageUri(uris[0]); // Assuming the API returns an array of URIs
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
+  // Function to handle the file input change event
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      await uploadData(file);
+    }
+  };
 
   return (
     <div>
@@ -73,8 +95,10 @@ const EventExtendCard: React.FC<{
             {/* Middle Circle */}
             <div className="absolute border-2 border-white rounded-full w-[600px] h-[600px] flex items-center justify-center">
               {/* Innermost Circle */}
-              <div className="border-2 border-white rounded-full w-[400px] h-[400px] flex items-center justify-center bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
-                <span className="text-white text-lg">My Connections</span>
+              <div className="border-2 border-white rounded-full w-[400px] h-[400px] flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
+                <span className="text-white text-lg mb-4">My Connections</span>
+                <input type="file" onChange={handleFileChange} accept="image/*" className="text-white" />
+                {imageUri && <img src={imageUri} alt="Uploaded" />}
               </div>
             </div>
           </div>
