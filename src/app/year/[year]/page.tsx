@@ -50,6 +50,8 @@ const ExpendCard: React.FC<{
       from: address,
     }
   );
+  const cardHeight = 120; // The height of one EventCard (in pixels)
+  const containerHeight = cardHeight * 3; // Show 3 cards at a time
 
   useEffect(() => {
     const fetchData = async () => {
@@ -160,7 +162,7 @@ const ExpendCard: React.FC<{
                   ? "Processing..."
                   : "Show your unique Nomad3 Drops Event ID"}
               </p>
-              <div className="bg-white p-2 rounded-lg shadow-lg">
+              <div className="bg-white p- rounded-lg shadow-lg">
                 <QrReader
                   onResult={(result, error) => {
                     if (result != undefined) {
@@ -187,40 +189,37 @@ const ExpendCard: React.FC<{
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
-          <div className="md:col-span-4 md:col-start-3 lg:col-start-3 xl:col-start-3">
-            <Cards
-              year={params.year}
-              eventsCount={32}
-              title="The 'Degen'"
-              poweredBy="powered by ERC-6551"
-              onNavigate={() => router.push("/")}
-              image="/PlaceA.jpg"
-            />
-          </div>
+          <div className="md:flex md:flex-row gap-4 p-4">
+            {/* Main Card on the Left */}
+            <div className="md:flex-grow md:mr-4"> {/* Adjust the margin-right to bring it closer */}
+              <Cards
+                year={params.year}
+                eventsCount={32}
+                title="The 'Degen'"
+                poweredBy="powered by ERC-6551"
+                onNavigate={() => router.push("/")}
+                image="/PlaceA.jpg"
+              />
+            </div>
 
-          <div className="relative pl-8">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 ">
-              {/* First card */}
-              <div
-                className={`md:col-span-3 md:col-start-1 relative z-0 right-0 transform hover:right-20 duration-500 ease-in-out ${
-                  isAnimationEnabled ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <EventCard
-                  title="ETH Singapore"
-                  connection="Connetions: 5"
-                  onNavigate={() =>
-                    router.push(
-                      `/year/${params.year}/0x75dFC61417A32224196ccE4e0CB2081CCFa843A2`
-                    )
-                  }
-                  image="/1.jpeg"
-                />
-              </div>
+            {/* Scrollable Event Cards Container on the Right */}
+            <div className="md:flex-grow" style={{ height: `${containerHeight}px`, overflowY: 'auto' }}>
+              {/* Map through your EventCard data here */}
+              {Array.from({ length: 10 }).map((_, index) => (
+                <div className="mb-4 last:mb-0" key={index}> {/* This adds a bottom margin to each card except the last one */}
+                  <EventCard
+                    title={`Event ${index}`}
+                    connection={`Connections: ${index * 3}`} // Example data
+                    onNavigate={() => router.push(`/event/${index}`)}
+                    image={`/event_${index}.jpeg`}
+                  />
+                </div>
+              ))}
             </div>
           </div>
-        </div>
+
+
+
       </div>
       <Web3Button
         contractAddress={Nomad3Drops?.getAddress() || ""}

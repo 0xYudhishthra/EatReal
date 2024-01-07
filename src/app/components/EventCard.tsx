@@ -9,20 +9,22 @@ interface CardProps {
 
 const EventCard: React.FC<CardProps> = ({ title, connection, onNavigate, image }) => {
   return (
-    <div className="flex justify-center border-2 border-black rounded-lg bg-blue-500 text-white w-80 h-96 shadow-inner hover:cursor-pointer hover:bg-blue-700 ease-in duration-300" onClick={onNavigate}>
-
-      <div className="flex-grow flex items-center border-2 rounded-lg">
-      <div className="flex flex-col justify-center items-center w-16 h-full ">
-        <div className="text-lg whitespace-nowrap grid  place-content-center -rotate-90 pt-12">{connection}</div>
-        <div className="text-lg whitespace-nowrap grid  place-content-center pl-24 -rotate-90">{title}</div>
-      </div>
-        <img src={image} alt={title} className="w-72 h-52 object-cover -rotate-90" />
-      </div>
-     
-
+    
+<a href="#" className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" onClick={onNavigate}>
+    <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={image} alt={title}/>
+    <div className="flex flex-col justify-between p-4 leading-normal">
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
+        <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">{connection}</p>
     </div>
+</a>
+
   );
 };
+
+
+
+
+
 
 export default EventCard;
 
