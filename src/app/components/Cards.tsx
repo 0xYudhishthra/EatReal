@@ -1,3 +1,4 @@
+import { title } from "process";
 import React from "react";
 
 interface CardProps {
@@ -18,17 +19,27 @@ const Cards: React.FC<CardProps> = ({
   image,
 }) => {
   return (
-    <div
-      className="flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-blue-500 text-white w-96 h-auto hover:cursor-pointer hover:bg-blue-700 ease-in duration-300"
-      onClick={onNavigate}
-    >
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
-      <div className="text-lg font-bold mt-4">{year}</div>
-      <div className="mb-2">{eventsCount} Events</div>
-      <div className="mb-2">{title}</div>
-      <div className="text-sm">{poweredBy}</div>
+    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" onClick={onNavigate}>
+    <div>
+        <img className="rounded-t-lg" src={image} alt={title} />
     </div>
+    <div className="p-5">
+        <div>
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
+        </div>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{eventsCount}{year}</p>
+        <div className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            {poweredBy}
+        </div>
+    </div>
+</div>
   );
 };
+
+
+
+
+
+
 
 export default Cards;

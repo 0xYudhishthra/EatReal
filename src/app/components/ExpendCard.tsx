@@ -50,9 +50,12 @@ const ExpendCard: React.FC<{
             title="The 'Degen'"
             poweredBy="powered by ERC-6551"
             onNavigate={() => onNavigate("LandingPage")}
-            image="/hello.jpg"
+            image="/PlaceA.jpg"
           />
         </div>
+
+
+        
         <div className="relative pl-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 ">
             {/* First card */}

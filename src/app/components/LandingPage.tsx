@@ -114,10 +114,10 @@ const LandingPage: React.FC<{
               <ConnectWallet />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 ">
             {yearsData &&
               yearsData.map((year, index) => (
-                <div key={index} className="md:col-span-4 col-start-3 p-8">
+                <div key={index} className="md:col-span-4 col-start-3 p-8 hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
                   <Cards
                     year={parseInt(year._hex, 16).toString()}
                     eventsCount={32}
@@ -127,7 +127,7 @@ const LandingPage: React.FC<{
                     ).toString()}`}
                     poweredBy="powered by ERC-6551"
                     onNavigate={() => onNavigate("ExpendCard")}
-                    image={`1.jpeg`}
+                    image={`PlaceA.jpg`}
                   />
                 </div>
               ))}
