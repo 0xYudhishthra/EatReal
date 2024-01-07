@@ -1,13 +1,32 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Cards from "../../../components/Cards";
 import PersonCard from "../../../components/PersonCard";
 import { useRouter } from "next/navigation";
+import { useAddress } from "@thirdweb-dev/react";
 
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
 }> = ({ params }) => {
   const router = useRouter();
+  const address = useAddress();
+
+  useEffect(() => {
+    if (!address) {
+      router.push("/"); // Redirect to the homepage if not connected
+    }
+  }, [address, router]);
+
+  if (!address) {
+    // Return null or a loading component if you want to show nothing or a loader while redirecting
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-3xl text-white font-bold">
+          Wallet not connected, redirecting...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
