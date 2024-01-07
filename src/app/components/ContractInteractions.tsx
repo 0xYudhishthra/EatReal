@@ -628,17 +628,6 @@ const Nomad3DropsABI = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "eventId",
-        type: "uint256",
-      },
-    ],
-    name: "MaxNFTsMinted",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
         internalType: "string",
         name: "metadata",
         type: "string",
@@ -722,12 +711,6 @@ const Nomad3DropsABI = [
         internalType: "string",
         name: "metadata",
         type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "maxDrops",
-        type: "uint256",
       },
     ],
     name: "EventCreated",
@@ -965,11 +948,6 @@ const Nomad3DropsABI = [
         internalType: "string",
         name: "metadata",
         type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "maxDrops",
-        type: "uint256",
       },
     ],
     name: "registerEvent",
@@ -1661,26 +1639,23 @@ const ERC6551AccountABI = [
 ];
 
 export const useNomad3 = () => {
-  return useContract("0x922b5E08eCBEb700f7e8fFBc017c3B1615924C2f", Nomad3ABI);
+  return useContract("0x0512f14b814eE48178980a704c09A60BF4eFC8dF", Nomad3ABI);
 };
 
 export const useNomad3Drops = () => {
   return useContract(
-    "0xeb437c80f8Ed75eAeDa2FD82dFad119AbE1D8E3E",
+    "0x09BD9658024741649d40f7183F5eEaEC795C0917",
     Nomad3DropsABI
   );
 };
 
 export const useERC6551Registry = () => {
   return useContract(
-    "0x7b2f437dCe34e34418AEA671a3F487769F87dEc2",
+    "0xcB93b8c61C3029Ed0377d9aF1FEE8fB650c2CC6d",
     ERC6551RegistryABI
   );
 };
 
-export const useERC6551Account = () => {
-  return useContract(
-    "0x11fec6659A1A1f187a654ECBc86cE7887AaEf223",
-    ERC6551AccountABI
-  );
+export const useERC6551Account = (address: string) => {
+  return useContract(address, ERC6551AccountABI);
 };
