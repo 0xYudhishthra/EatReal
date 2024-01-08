@@ -20,7 +20,9 @@ const EventExtendCard: React.FC<{
   const [buttonText, setButtonText] = useState(
     "Scan QR Code to get Connection Address"
   );
+const { mutateAsync: uploadToIpfs } = useStorageUpload();
 
+  
   useEffect(() => {
     if (!address) {
       router.push("/"); // Redirect to the homepage if not connected
@@ -38,30 +40,6 @@ const EventExtendCard: React.FC<{
     );
   }
 
-  const uploadData = async (file: any) => {
-    try {
-      // This uploads the file and returns the URl
-      const urls = await upload({ data: file });
-      console.log('File uploaded:', urls);
-      setImageUri(urls[0]); // Assuming the API returns an array of URIs
-      // This uploads the file and returns the URI
-      const uris = await upload({ data: file });
-      console.log("File uploaded:", uris);
-      setImageUri(uris[0]); // Assuming the API returns an array of URIs
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
-  // Function to handle the file input change event
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      await uploadData(file);
-    }
-  };
 
   // handle scan connection button
   const handleScanConnection = () => {
@@ -93,6 +71,22 @@ const EventExtendCard: React.FC<{
   };
 
 
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0]; // Get the file from the event
+    if (file) {
+      try {
+        // Upload the file to IPFS
+        console.log(file)
+        const uris = await uploadToIpfs({ data: [file] });
+        setImageUri(uris[0]); // Set the IPFS URI in state to display the image
+        alert('Image uploaded to IPFS successfully!');
+      } catch (error) {
+        console.error('Error uploading image to IPFS:', error);
+        alert('Error uploading image to IPFS.');
+      }
+    }
+  };
+
   return (
     <div>
       <div>
@@ -103,6 +97,26 @@ const EventExtendCard: React.FC<{
           <img src="/back.png" alt="Back" className="h-10 w-10" />
           Back
         </button>
+      </div>
+      <div className="flex justify-center items-center mt-4">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          disabled={scanqrcode} // Disable during QR code scan
+          className="file:mr-4 file:py-2 file:px-4
+                     file:rounded file:border-0
+                     file:text-sm file:font-semibold
+                     file:bg-violet-50 file:text-violet-700
+                     hover:file:bg-violet-100
+                     "
+        />
+        {imageUri && (
+          <div className="mt-4">
+            <p>Image uploaded to IPFS:</p>
+            <img src={imageUri} alt="Uploaded to IPFS" className="h-40 w-40 rounded-full" />
+          </div>
+        )}
       </div>
       <div className="flex items-center justify-center mt-10 z-1">
         <Cards
