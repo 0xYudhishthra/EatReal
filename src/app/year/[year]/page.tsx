@@ -279,17 +279,16 @@ const ExpendCard: React.FC<{
             {/* Map through your EventCard data here */}
             {Array.from({ length: 10 }).map((_, index) => (
               <div className="mb-4 last:mb-0" key={index}>
-                {" "}
                 {/* This adds a bottom margin to each card except the last one */}
                 <EventCard
-                  title={`Event ${index}`}
-                  connection={`Connections: ${index * 3}`} // Example data
+                  EventName={`Event ${index}`}
+                  EventDate="2021-10-10"
+                  TokenboundAccount="0x75dFC61417A32224196ccE4e0CB2081CCFa843A2"
                   onNavigate={() =>
                     router.push(
                       `/year/${params.year}/0x75dFC61417A32224196ccE4e0CB2081CCFa843A2`
                     )
                   }
-                  image={`/event_${index}.jpeg`}
                 />
               </div>
             ))}
