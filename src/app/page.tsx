@@ -19,60 +19,55 @@ import QRCode from "react-qr-code";
 const LandingPage = () => {
   const address = useAddress();
   const [inputValue, setInputValue] = useState<number | string>("");
-  const [yearsData, setYearsData] = useState<BigNumber[]>([]);
-  const [event, setEvent] = useState<BigNumber>(BigNumber.from(0));
+  const [yearsData, setYearsData] = useState<
+    { year: number; eventCount: number }[]
+  >([]);
+  const [currentIndex, setCurrentIndex] = useState(0); // Added state to track current index
+  const [year, setYear] = useState<number>(0);
+
+  const { contract: Nomad3 } = useNomad3();
   const router = useRouter();
 
-  /**
-   * 2. by default, a `contract` object is returned, best practice is to rename this accordingly to the target contract you are interacting with
-   * can do something like this:
-   * const { contract: 'THE_CONTRACT_NAME_TO_USE' } = useNomad3();
-   */
-  const { contract: Nomad3 } = useNomad3();
+  // Fetch years from the contract
+  const {
+    data: years,
+    isLoading,
+    error,
+  } = useContractRead(Nomad3, "getYears", [], { from: address });
 
-  /**
-   * The `useContractRead` hook is used to read data from the blockchain
-   * useContractRead(contract, functionName, args, options)
-   * data: the data returned from the contract function
-   * isLoading: boolean to indicate if the data is loading
-   * error: error message if there is an error
-   */
-  const { data, isLoading, error } = useContractRead(Nomad3, "getYears", [], {
+  // Fetch event count for the current year
+
+  // Set year for fetching event count
+  useEffect(() => {
+    if (years && currentIndex < years.length) {
+      const yearBN = years[currentIndex];
+      const year = parseInt(yearBN._hex, 16);
+      setYear(year);
+    }
+  }, [years, currentIndex]);
+
+  // Fetch event count for each year
+  const {
+    data: eventCount,
+    isLoading: isLoadingEventCount,
+    error: errorEventCount,
+  } = useContractRead(Nomad3, "getEventCount", [year], {
     from: address,
   });
 
-  
-
+  // Update yearsData when eventCount is fetched
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setYearsData(data);
-        // loop through the yearsData array and get the event count for each year, using for loop 
-        // for (let i = 0; i < yearsData.length; i++) {
-        //   const { data: eventCount, isLoading: isEventCountLoading , error: isEventCountError } = useContractRead(Nomad3, "getEventCount", [yearsData[i]], {
-        //     from: address,
-        //   });
-        //   console.log(eventCount);
-        // }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [data]);
+    if (eventCount !== undefined && currentIndex < years.length) {
+      const year = parseInt(years[currentIndex]._hex, 16);
+      const count = parseInt(eventCount._hex, 16);
 
-  // const getEventCount = async (year: BigNumber) => {
-  //   try {
-  //     const { data: eventCount, isLoading: isEventCountLoading , error: isEventCountError } = useContractRead(Nomad3, "getEventCount", [year], {
-  //       from: address,
-  //     });
-  //     console.log(eventCount)
-  //     return eventCount;
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // }
-
+      setYearsData((prevYearsData) => [
+        ...prevYearsData,
+        { year, eventCount: count },
+      ]);
+      setCurrentIndex(currentIndex + 1); // Move to the next year
+    }
+  }, [eventCount, currentIndex]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -102,16 +97,16 @@ const LandingPage = () => {
     }
   }, []);
 
-  //Qr code 
-    const [back, setBack] = useState('#FFFFFF');
-    const [fore, setFore] = useState('#000000');
-    const [showQr, setShowQr] = useState(false);
+  //Qr code
+  const [back, setBack] = useState("#FFFFFF");
+  const [fore, setFore] = useState("#000000");
+  const [showQr, setShowQr] = useState(false);
 
-    const handleProfileClick = () => {
-      // when i click on the profile button, it will change the state of showQr to true
-      setShowQr(!showQr);
-    };
-    
+  const handleProfileClick = () => {
+    // when i click on the profile button, it will change the state of showQr to true
+    setShowQr(!showQr);
+  };
+
   return (
     <div className="relative flex min-h-screen flex-col">
       <video
@@ -140,51 +135,51 @@ const LandingPage = () => {
               <p>Click here to see what&apos;s AFI is in your NFT</p>
             </header>
             <div className="grid grid-flow-col space-x-4 ">
-            <div className=" z-10 flex justify-center place-items-start top-0 bottom-6">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg"
-                onClick={handleProfileClick}
-              >
-                {showQr ? 'Hide My QR Code' : 'Show My QR Code'}
-              </button>
-              {showQr && (
-                <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
-                  <div className="p-4 bg-white rounded-lg">
-                    <QRCode
-                      value={address}
-                      size={256}
-                      bgColor={"#ffffff"}
-                      fgColor={"#000000"}
-                      level={"L"}
-                    />
-                    <button
-                      className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg"
-                      onClick={handleProfileClick}
-                    >
-                      Close
-                    </button>
+              <div className=" z-10 flex justify-center place-items-start top-0 bottom-6">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg"
+                  onClick={handleProfileClick}
+                >
+                  {showQr ? "Hide My QR Code" : "Show My QR Code"}
+                </button>
+                {showQr && (
+                  <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
+                    <div className="p-4 bg-white rounded-lg">
+                      <QRCode
+                        value={address}
+                        size={256}
+                        bgColor={"#ffffff"}
+                        fgColor={"#000000"}
+                        level={"L"}
+                      />
+                      <button
+                        className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded-lg"
+                        onClick={handleProfileClick}
+                      >
+                        Close
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               </div>
               <div>
-              <ConnectWallet />
+                <ConnectWallet />
               </div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4">
             {yearsData &&
-              yearsData.map((year, index) => (
-                <div key={index} className="md:col-span-4 col-start-3 p-8 hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
+              yearsData.map((item, index) => (
+                <div
+                  key={index}
+                  className="md:col-span-4 col-start-3 p-8 hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out"
+                >
                   <Cards
-                    year={parseInt(year._hex, 16).toString()}
-                    eventsCount={0}//haventdone
-                    title={`The 'Degen' - Year ${parseInt(
-                      year._hex,
-                      16
-                    ).toString()}`}
+                    year={item.year.toString()}
+                    eventsCount={parseInt(item.eventCount.toString())}
+                    title={`The 'Degen' - Year ${item.year}`}
                     poweredBy="powered by ERC-6551"
-                    onNavigate={() => router.push("/year/" + year)}
+                    onNavigate={() => router.push("/year/" + item.year)}
                     image={`PlaceA.jpg`}
                   />
                 </div>
@@ -220,7 +215,7 @@ const LandingPage = () => {
               onError={(error) => console.log(error)}
               className="ml-8"
             >
-              Send Transaction
+              Create Year Album
             </Web3Button>
           </div>
         </div>

@@ -60,6 +60,14 @@ const ExpendCard: React.FC<{
     from: address,
   });
 
+  // Fetch event count for the current year
+  const { data: eventCount } = useContractRead(
+    Nomad3,
+    "getEventCount",
+    [params.year],
+    { from: address }
+  );
+
   //iterate through each event and get the event name and date
   for (let i = 0; i < eventData?.length; i++) {
     const event = eventData[i];
@@ -263,7 +271,7 @@ const ExpendCard: React.FC<{
             {/* Adjust the margin-right to bring it closer */}
             <Cards
               year={params.year}
-              eventsCount={32}
+              eventsCount={eventCount?.toNumber()}
               title="The 'Degen'"
               poweredBy="powered by ERC-6551"
               onNavigate={() => router.push("/")}
@@ -277,7 +285,7 @@ const ExpendCard: React.FC<{
             style={{ height: `${containerHeight}px`, overflowY: "auto" }}
           >
             {/* Map through your EventCard data here */}
-            {eventsData.map((event, index) => {
+            {eventsData?.map((event, index) => {
               const eventName = event[1];
               const eventDate = new Date(
                 BigNumber.from(event[2]).toNumber() * 1000
