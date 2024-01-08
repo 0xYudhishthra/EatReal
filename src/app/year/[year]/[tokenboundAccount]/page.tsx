@@ -138,7 +138,7 @@ const EventExtendCard: React.FC<{
           className="bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300"
           onClick={() => router.back()}
         >
-          <Image src="/back.png" alt="Back" className="h-10 w-10" />
+          <Image src="/back.png" alt="Back" height={10} width={10} />
           Back
         </button>
       </div>

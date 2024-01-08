@@ -179,7 +179,7 @@ const LandingPage = () => {
                     title={`The 'Degen' - Year ${item.year}`}
                     poweredBy="powered by ERC-6551"
                     onNavigate={() => router.push("/year/" + item.year)}
-                    image={`PlaceA.jpg`}
+                    image="/PlaceA.jpg"
                   />
                 </div>
               ))}
@@ -224,6 +224,8 @@ const LandingPage = () => {
             src="/Logo.png"
             alt="Descriptive Text"
             style={{ width: "200px", height: "auto" }}
+            width={200}
+            height={200}
           />
           <div className="pt-7">
             <ConnectWallet
