@@ -2187,7 +2187,7 @@
 
 "@thirdweb-dev/react@^4.2.2":
   version "4.2.2"
-  resolved "https://registry.npmjs.org/@thirdweb-dev/react/-/react-4.2.2.tgz"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-4.2.2.tgz#2aaaffaeea1150ffdfcfed410aa483358dee9589"
   integrity sha512-chigDGLiw7C3sjn5NyFSllixwZEfG5oZ2zppyYQrCmKPV9RsKVr06FqYKBIvTquqQ5BdkgjofUwOGdbwlLKZag==
   dependencies:
     "@emotion/css" "11.10.5"
