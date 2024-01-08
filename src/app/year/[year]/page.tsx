@@ -30,19 +30,15 @@ const ExpendCard: React.FC<{
   const [eventId, setEventId] = useState<BigNumber>(BigNumber.from(0));
   const [eventsData, setEventsData] = useState<[]>([]);
   const [showScanner, setShowScanner] = useState(false);
-  const [buttonText, setButtonText] = useState(
-    "Scan QR Code to fetch Event ID"
-  );
   const [tokenboundAddress, setTokenboundAddress] = useState("");
   const [tokenId, setTokenId] = useState<BigNumber>(BigNumber.from(0));
-  const [tokenURI, setTokenURI] = useState("");
   const [metadata, setMetadata] = useState<any>();
 
   const { contract: Nomad3 } = useNomad3();
   const { contract: Nomad3Drops } = useNomad3Drops();
   const { contract: ERC6551Account } = useERC6551Account(tokenboundAddress);
 
-  const {
+  let {
     mutateAsync: mutateAsyncMintNFT,
     isLoading: isMintingNFT,
     error: mintNFTError,
@@ -65,17 +61,17 @@ const ExpendCard: React.FC<{
   });
 
   //iterate through each event and get the event name and date
-  // for (let i = 0; i < eventData?.length; i++) {
-  //   const event = eventData[i];
-  //   const eventName = event[1];
-  //   const eventDate = event[2];
-  //   const tokenboundAddress = event[5];
-  //   console.log(
-  //     eventName,
-  //     BigNumber.from(eventDate).toString(),
-  //     tokenboundAddress
-  //   );
-  // }
+  for (let i = 0; i < eventData?.length; i++) {
+    const event = eventData[i];
+    const eventName = event[1];
+    const eventDate = event[2];
+    const tokenboundAddress = event[5];
+    console.log(
+      eventName,
+      BigNumber.from(eventDate).toString(),
+      tokenboundAddress
+    );
+  }
 
   const {
     data: tokenIdData,
@@ -95,7 +91,6 @@ const ExpendCard: React.FC<{
         setEventsData(eventData);
         setTokenboundAddress(tokenboundAddress);
         setTokenId(tokenId);
-        setTokenURI(tokenURIData);
         setMetadata(metadata);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -103,7 +98,16 @@ const ExpendCard: React.FC<{
     };
 
     fetchData();
-  }, [eventData, tokenboundAddress, tokenId, metadata, tokenURIData]);
+  }, [eventData, tokenboundAddress, tokenId, metadata]);
+
+  // Call the function in an effect or another async function
+  useEffect(() => {
+    if (tokenURIData) {
+      fetchEventMetadata().then((metadata) => {
+        setMetadata(metadata); // Update the state with the fetched metadata
+      });
+    }
+  }, [tokenURIData]); // Depend on tokenURIData
 
   useEffect(() => {
     // Enable animation after component is mounted
@@ -122,16 +126,18 @@ const ExpendCard: React.FC<{
 
   //Function that fetches the event metadata based on the event id
   //currently its, Qmdm2jUV9odWZtCj5hsS2pbpGz7ZuDAhEZWWC1ninagDxc/VictionHackathon.json/26, im only interested in everythng but "/26"
-  const getEventMetadata = async () => {
-    const ipfsHash = tokenURIData?.slice(0, -3);
-    console.log("ipfshash", ipfsHash);
-
-    //fetch the metadata and identify the JSON inside it, this is an IPFS url
-    const data = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`);
-
-    console.log("data", data.json());
-    //only return if the JSON has keys
-    return await data?.json();
+  const fetchEventMetadata = async () => {
+    try {
+      const ipfsHash = tokenURIData?.slice(0, -3);
+      if (ipfsHash) {
+        const data = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`);
+        const json = await data.json();
+        console.log("Metadata:", json); // Log the metadata
+        return json; // Return the JSON data
+      }
+    } catch (error) {
+      console.error("Error fetching metadata:", error);
+    }
   };
 
   // This function is now responsible for starting the QR scan process.
@@ -151,7 +157,6 @@ const ExpendCard: React.FC<{
       setEventId(scannedEventId);
 
       try {
-        setButtonText("Minting NFT and Deploying TBA...");
         // first, get the tokenbound address after minting the nft
         const mintTx = await mutateAsyncMintNFT({
           args: [scannedEventId],
@@ -163,22 +168,17 @@ const ExpendCard: React.FC<{
           alert(`NFT minted and Tokenbound Account deployed!`);
 
           const targetData = mintTx.receipt.logs[2].data;
-          console.log(targetData);
 
           const tbaAddress = targetData.slice(-40); // Extract the last 40 characters
           const tokenId = targetData.substring(0, 66);
           setTokenboundAddress(`0x${tbaAddress}`);
           setTokenId(ethers.BigNumber.from(tokenId));
-          console.log("tokenid", tokenId);
-          const metadata = getEventMetadata();
-          console.log("metadatais", metadata);
           setMetadata(metadata);
 
           window.open(
             `https://testnet.vicscan.xyz/tx/${mintTx.receipt.transactionHash}`,
             "_blank"
           );
-          return;
         }
       } catch (error) {}
     }
@@ -305,7 +305,9 @@ const ExpendCard: React.FC<{
           isDisabled={isMintingNFT}
           className="ml-8"
         >
-          {buttonText}
+          {isMintingNFT
+            ? "Minting NFT and Deploying TBA..."
+            : "Claim Nomad3 Drops Event NFT"}
         </Web3Button>
       )}
       {tokenboundAddress && (
@@ -329,12 +331,16 @@ const ExpendCard: React.FC<{
               `https://testnet.vicscan.xyz/tx/${result.receipt.transactionHash}`,
               "_blank"
             );
+            isMintingNFT = false;
+            setTokenboundAddress("");
           }}
           onError={(error) => console.log(error)}
           isDisabled={isCreatingEvent}
           className="ml-8"
         >
-          Create Event with TBA {tokenboundAddress}
+          {isCreatingEvent
+            ? "Creating Event..."
+            : `Create Event with TBA ${tokenboundAddress}`}
         </Web3Button>
       )}
     </div>
