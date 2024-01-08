@@ -167,7 +167,7 @@ const ExpendCard: React.FC<{
       try {
         // first, get the tokenbound address after minting the nft
         const mintTx = await mutateAsyncMintNFT({
-          args: [scannedEventId],
+          args: [ethers.BigNumber.from(scannedEventId)],
         });
 
         //first log the fact that the nft was minted

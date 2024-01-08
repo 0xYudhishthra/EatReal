@@ -3,16 +3,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   ConnectWallet,
-  contractType,
   useAddress,
-  useContract,
   useContractRead,
   useContractWrite,
   Web3Button,
 } from "@thirdweb-dev/react";
 import Cards from "./components/Cards";
-import { useNomad3 } from "./components/ContractInteractions"; //1. identify what hook you wanna use from ContractInteractions.tsx
-import { ethers, BigNumber } from "ethers";
+import { useNomad3 } from "./components/ContractInteractions";
+import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import QRCode from "react-qr-code";
 
@@ -22,52 +20,52 @@ const LandingPage = () => {
   const [yearsData, setYearsData] = useState<
     { year: number; eventCount: number }[]
   >([]);
-  const [currentIndex, setCurrentIndex] = useState(0); // Added state to track current index
+  const [yearToFetchIndex, setYearToFetchIndex] = useState(0);
+  const [fetchInProgress, setFetchInProgress] = useState(false);
   const [year, setYear] = useState<number>(0);
 
   const { contract: Nomad3 } = useNomad3();
   const router = useRouter();
 
   // Fetch years from the contract
-  const {
-    data: years,
-    isLoading,
-    error,
-  } = useContractRead(Nomad3, "getYears", [], { from: address });
-
-  // Fetch event count for the current year
-
-  // Set year for fetching event count
-  useEffect(() => {
-    if (years && currentIndex < years.length) {
-      const yearBN = years[currentIndex];
-      const year = parseInt(yearBN._hex, 16);
-      setYear(year);
-    }
-  }, [years, currentIndex]);
-
-  // Fetch event count for each year
-  const {
-    data: eventCount,
-    isLoading: isLoadingEventCount,
-    error: errorEventCount,
-  } = useContractRead(Nomad3, "getEventCount", [year], {
+  const { data: years } = useContractRead(Nomad3, "getYears", [], {
     from: address,
   });
 
+  // Effect to initiate fetch of event count for each year
+  useEffect(() => {
+    if (!fetchInProgress && years && yearToFetchIndex < years.length) {
+      const yearBN = years[yearToFetchIndex];
+      const yearNumber = parseInt(yearBN._hex, 16);
+      if (!yearsData.some((yd) => yd.year === yearNumber)) {
+        setYear(yearNumber);
+        setFetchInProgress(true);
+      } else {
+        setYearToFetchIndex(yearToFetchIndex + 1);
+      }
+    }
+  }, [years, yearToFetchIndex, fetchInProgress, yearsData]);
+
+  // Fetch event count for the current year
+  const { data: eventCount } = useContractRead(
+    Nomad3,
+    "getEventCount",
+    [year],
+    { from: address }
+  );
+
   // Update yearsData when eventCount is fetched
   useEffect(() => {
-    if (eventCount !== undefined && currentIndex < years.length) {
-      const year = parseInt(years[currentIndex]._hex, 16);
+    if (fetchInProgress && eventCount !== undefined) {
       const count = parseInt(eventCount._hex, 16);
-
       setYearsData((prevYearsData) => [
         ...prevYearsData,
         { year, eventCount: count },
       ]);
-      setCurrentIndex(currentIndex + 1); // Move to the next year
+      setFetchInProgress(false);
+      setYearToFetchIndex(yearToFetchIndex + 1);
     }
-  }, [eventCount, currentIndex]);
+  }, [eventCount, yearToFetchIndex, year]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
