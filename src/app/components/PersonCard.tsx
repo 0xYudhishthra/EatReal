@@ -1,5 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface PersonalCardProps {
   name: string;
@@ -8,14 +8,25 @@ interface PersonalCardProps {
   notes: string;
 }
 
-const PersonCards: React.FC<PersonalCardProps> = ({ name, image, title, notes }) => {
+const PersonCards: React.FC<PersonalCardProps> = ({
+  name,
+  image,
+  title,
+  notes,
+}) => {
   return (
-    <div className='flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 w-96 h-auto'>
-      <Image src={image} alt={title} className="w-full h-48 object-cover" />
-      <div className='flex justify-between'>
+    <div className="flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 w-96 h-auto">
+      <Image
+        src={image}
+        alt={title}
+        className=" object-cover"
+        width={500}
+        height={300}
+      />
+      <div className="flex justify-between">
         <div className="text-lg font-bold ">{name}</div>
       </div>
-      <div className='text-md mt-8'>{notes}</div>
+      <div className="text-md mt-8">{notes}</div>
     </div>
   );
 };
