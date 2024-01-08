@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface CardProps {
   year: string;
@@ -23,7 +24,14 @@ const Cards: React.FC<CardProps> = ({
       onClick={onNavigate}
     >
       <div>
-        <img className="rounded-t-lg" src={image} alt={title} />
+        <Image
+          src={image}
+          alt={title}
+          width={500} // Set the width as per your requirement
+          height={300} // Set the height as per your requirement
+          className="rounded-t-lg"
+          layout="responsive"
+        />
       </div>
       <div className="p-5">
         <div>

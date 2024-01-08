@@ -19,7 +19,9 @@ import {
 import { ethers, BigNumber } from "ethers";
 import { QrReader } from "react-qr-reader";
 
-const ExpendCard = ({ params }) => {
+const ExpendCard: React.FC<{
+  params: { year: string };
+}> = ({ params }) => {
   const address = useAddress();
   const router = useRouter();
   const [showScanner, setShowScanner] = useState(false);

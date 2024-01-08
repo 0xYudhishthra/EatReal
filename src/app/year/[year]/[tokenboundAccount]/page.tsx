@@ -14,6 +14,7 @@ import { useERC6551Account } from "../../../components/ContractInteractions";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { QrReader } from "react-qr-reader";
 import { ethers, BigNumber } from "ethers";
+import Image from "next/image";
 
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
@@ -137,7 +138,7 @@ const EventExtendCard: React.FC<{
           className="bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300"
           onClick={() => router.back()}
         >
-          <img src="/back.png" alt="Back" className="h-10 w-10" />
+          <Image src="/back.png" alt="Back" className="h-10 w-10" />
           Back
         </button>
       </div>
@@ -242,8 +243,8 @@ const EventExtendCard: React.FC<{
       </div>
 
       <div className="grid grid-cols-5 gap-10 mx-20 mt-10">
-        {eventPictures?.map((pictureHash: string) => (
-          <div>
+        {eventPictures?.map((pictureHash: string, key: number) => (
+          <div key={key}>
             <MediaRenderer
               className="h-40 w-40 rounded-full"
               src={pictureHash}

@@ -13,6 +13,7 @@ import { useNomad3 } from "./components/ContractInteractions";
 import { ethers } from "ethers";
 import { useRouter } from "next/navigation";
 import QRCode from "react-qr-code";
+import Image from "next/image";
 
 const LandingPage = () => {
   const address = useAddress();
@@ -219,7 +220,7 @@ const LandingPage = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center flex-1 text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-800 dark:text-white mb-15">
-          <img
+          <Image
             src="/Logo.png"
             alt="Descriptive Text"
             style={{ width: "200px", height: "auto" }}

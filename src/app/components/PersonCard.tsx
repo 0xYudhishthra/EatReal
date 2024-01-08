@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface PersonalCardProps {
   name: string;
@@ -10,7 +11,7 @@ interface PersonalCardProps {
 const PersonCards: React.FC<PersonalCardProps> = ({ name, image, title, notes }) => {
   return (
     <div className='flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 w-96 h-auto'>
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
+      <Image src={image} alt={title} className="w-full h-48 object-cover" />
       <div className='flex justify-between'>
         <div className="text-lg font-bold ">{name}</div>
       </div>
