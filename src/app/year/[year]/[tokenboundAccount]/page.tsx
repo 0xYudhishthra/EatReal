@@ -5,6 +5,8 @@ import PersonCard from "../../../components/PersonCard";
 import { useRouter } from "next/navigation";
 import { useAddress } from "@thirdweb-dev/react";
 import { useStorageUpload } from '@thirdweb-dev/react';
+import { QrReader } from 'react-qr-reader';
+import { ethers, BigNumber } from "ethers";
 
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
@@ -13,6 +15,10 @@ const EventExtendCard: React.FC<{
   const address = useAddress();
   const [imageUri, setImageUri] = useState("");
   const { mutateAsync: upload } = useStorageUpload();
+  const [ scanqrcode, setScanqrcode ] = useState(false);
+  const [buttonText, setButtonText] = useState(
+    "Scan QR Code to get Connection Address"
+  );
 
   useEffect(() => {
     if (!address) {
@@ -33,10 +39,10 @@ const EventExtendCard: React.FC<{
 
   const uploadData = async (file) => {
     try {
-      // This uploads the file and returns the URI
-      const uris = await upload({ data: file });
-      console.log('File uploaded:', uris);
-      setImageUri(uris[0]); // Assuming the API returns an array of URIs
+      // This uploads the file and returns the URl
+      const urls = await upload({ data: file });
+      console.log('File uploaded:', urls);
+      setImageUri(urls[0]); // Assuming the API returns an array of URIs
     } catch (error) {
       console.error('Error uploading file:', error);
     }
@@ -49,6 +55,36 @@ const EventExtendCard: React.FC<{
       await uploadData(file);
     }
   };
+
+  // handle scan connection button
+  const handleScanConnection = () => {
+    setScanqrcode(true);
+  };
+ // Combine handleQrResult and sendTransaction into one function
+ const processConnectionAndSendTransaction = async (scannedResult: any) => {
+  if (scannedResult) {
+    // Parse the result
+    const scannedConnectionAdd = ethers.BigNumber.from(
+      parseInt(scannedResult.getText())
+    );
+    setScanqrcode(scanqrcode);
+
+    try {
+      // Start transaction immediately after scanning
+      const tx = await scannedConnectionAdd;
+      setButtonText(
+        "Transaction successful - check your console for tx hash"
+      );
+    } catch (error) {
+      setButtonText(
+        "Transaction failed - check your console for error message"
+      );
+    } finally {
+      setScanqrcode(false); // Close scanner after attempting transaction
+    }
+  }
+  };
+
 
   return (
     <div>
@@ -74,6 +110,40 @@ const EventExtendCard: React.FC<{
       <div className="flex items-center justify-center mt-36 ">
         <div className="text-3xl text-white font-bold">Connections</div>
       </div>
+      {/* Scan connection qr  */}
+      <div className="flex items-center justify-center mt-12">
+        <button 
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg  "
+          onClick={handleScanConnection}>
+          Add Connection
+        </button>
+        {scanqrcode && (
+          <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
+            <QrReader
+              onResult={(result, error) => {
+                if (result != undefined) {
+                  processConnectionAndSendTransaction(result);
+                }
+
+                if (error) {
+                  console.error(error);
+                }
+              }}
+              constraints={{ facingMode: "user" }}
+              containerStyle={{ width: "300px", height: "300px" }}
+              videoStyle={{ width: "100%", height: "100%" }}
+            />
+          
+          {/* cancel button */}
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={() => setScanqrcode(false)}
+          >
+            Cancel
+          </button>
+        </div>
+        )}
+      </div>
       <div className="flex justify-between mt-28 mx-40 z-20">
         <PersonCard
           name={"Cody"}
@@ -97,8 +167,6 @@ const EventExtendCard: React.FC<{
               {/* Innermost Circle */}
               <div className="border-2 border-white rounded-full w-[400px] h-[400px] flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
                 <span className="text-white text-lg mb-4">My Connections</span>
-                <input type="file" onChange={handleFileChange} accept="image/*" className="text-white" />
-                {imageUri && <img src={imageUri} alt="Uploaded" />}
               </div>
             </div>
           </div>
@@ -118,6 +186,8 @@ const EventExtendCard: React.FC<{
           notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
         />
       </div>
+    
+     
       <div className="mt-20 flex justify-center font-semibold text-2xl">
         Momentos
       </div>
