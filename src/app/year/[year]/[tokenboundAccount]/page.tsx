@@ -8,6 +8,7 @@ import { useStorageUpload } from '@thirdweb-dev/react';
 import { QrReader } from 'react-qr-reader';
 import { ethers, BigNumber } from "ethers";
 
+
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
 }> = ({ params }) => {
@@ -37,20 +38,26 @@ const EventExtendCard: React.FC<{
     );
   }
 
-  const uploadData = async (file) => {
+  const uploadData = async (file: any) => {
     try {
       // This uploads the file and returns the URl
       const urls = await upload({ data: file });
       console.log('File uploaded:', urls);
       setImageUri(urls[0]); // Assuming the API returns an array of URIs
+      // This uploads the file and returns the URI
+      const uris = await upload({ data: file });
+      console.log("File uploaded:", uris);
+      setImageUri(uris[0]); // Assuming the API returns an array of URIs
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error("Error uploading file:", error);
     }
   };
 
   // Function to handle the file input change event
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
     if (file) {
       await uploadData(file);
     }

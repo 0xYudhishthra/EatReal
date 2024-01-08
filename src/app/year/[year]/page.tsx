@@ -16,6 +16,7 @@ import {
 import {
   useNomad3,
   useNomad3Drops,
+  useERC6551Account,
 } from "../../components/ContractInteractions";
 import { ethers, BigNumber } from "ethers";
 import { QrReader } from "react-qr-reader";
@@ -32,9 +33,12 @@ const ExpendCard: React.FC<{
   const [buttonText, setButtonText] = useState(
     "Scan QR Code to fetch Event ID"
   );
+  const [tokenboundAddress, setTokenboundAddress] = useState("");
+  const [tokenId, setTokenId] = useState<BigNumber>(BigNumber.from(0));
 
   const { contract: Nomad3 } = useNomad3();
   const { contract: Nomad3Drops } = useNomad3Drops();
+  const { contract: ERC6551Account } = useERC6551Account(tokenboundAddress);
 
   const {
     mutateAsync: mutateAsyncMintNFT,
@@ -42,32 +46,42 @@ const ExpendCard: React.FC<{
     error: mintNFTError,
   } = useContractWrite(Nomad3Drops, "mintNFT");
 
-  const { data, isLoading, error } = useContractRead(
-    Nomad3,
-    "getEvents",
-    [params.year],
-    {
-      from: address,
-    }
-  );
   const cardHeight = 120; // The height of one EventCard (in pixels)
   const containerHeight = cardHeight * 3; // Show 3 cards at a time
+  const {
+    mutateAsync: mutateAsyncCreateEvent,
+    isLoading: isCreatingEvent,
+    error: createEventError,
+  } = useContractWrite(ERC6551Account, "callCreateEventOnNomad3");
+
+  const {
+    data: eventData,
+    isLoading: isEventLoading,
+    error: eventError,
+  } = useContractRead(Nomad3, "getEvents", [params.year], {
+    from: address,
+  });
+
+  console.log(eventData);
+
+  const {
+    data: tokenIdData,
+    isLoading: isTokenIdLoading,
+    error: tokenIdError,
+  } = useContractRead(ERC6551Account, "token");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setEventsData(data);
+        setEventsData(eventData);
+        setTokenboundAddress(tokenboundAddress);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
+  }, [eventData, tokenboundAddress]);
 
   useEffect(() => {
     // Enable animation after component is mounted
@@ -84,6 +98,15 @@ const ExpendCard: React.FC<{
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  //Function that fetches the event metadata based on the event id
+  const getEventMetadata = async (eventId: BigNumber) => {
+    // const eventMetadata = await mutateAsyncMintNFT({
+    //   args: [eventId],
+    // });
+    // console.log(eventMetadata);
+    return "eventMetadata";
+  };
+
   // This function is now responsible for starting the QR scan process.
   const handleStartScan = () => {
     setShowScanner(true); // Open the QR code scanner
@@ -92,6 +115,8 @@ const ExpendCard: React.FC<{
   // Combine handleQrResult and sendTransaction into one function
   const processEventAndSendTransaction = async (scannedResult: any) => {
     if (scannedResult) {
+      setShowScanner(false); // Close scanner after attempting transaction
+
       // Parse the result
       const scannedEventId = ethers.BigNumber.from(
         parseInt(scannedResult.getText())
@@ -99,18 +124,52 @@ const ExpendCard: React.FC<{
       setEventId(scannedEventId);
 
       try {
-        // Start transaction immediately after scanning
-        const tx = await mutateAsyncMintNFT({ args: [scannedEventId] });
+        // first, get the tokenbound address after minting the nft
+        const mintTx = await mutateAsyncMintNFT({
+          args: [scannedEventId],
+        });
+
+        //first log the fact that the nft was minted
+        //open the transaction in a new tab
+        if (mintTx.receipt.transactionHash) {
+          alert("NFT minted! Now, deploying TBA for this NFT");
+          window.open(
+            `https://testnet.vicscan.xyz/tx/${mintTx.receipt.transactionHash}`,
+            "_blank"
+          );
+        }
+
+        const targetData = mintTx.receipt.logs[2].data;
+
+        const tbaAddress = targetData.slice(-40); // Extract the last 40 characters
         setButtonText(
-          "Transaction successful - check your console for tx hash"
+          `TBA deployed @ 0x${tbaAddress}, you can create the event now!`
         );
-      } catch (error) {
-        setButtonText(
-          "Transaction failed - check your console for error message"
-        );
-      } finally {
-        setShowScanner(false); // Close scanner after attempting transaction
-      }
+
+        // set the tokenbound address
+        setTokenboundAddress(`0x${tbaAddress}`);
+
+        // //then, use the tokenbound address to create the event
+        const eventTx = await mutateAsyncCreateEvent({
+          args: [
+            Nomad3?.getAddress(),
+            params.year,
+            getEventMetadata(scannedEventId),
+            ethers.BigNumber.from(Math.floor(Date.now() / 1000)),
+            tokenIdData[2].toString(),
+          ],
+        });
+
+        console.log(eventTx);
+
+        if (eventTx) {
+          setButtonText("Event created successfully using TBA!");
+          window.open(
+            `https://testnet.vicscan.xyz/tx/${eventTx.receipt.transactionHash}`,
+            "_blank"
+          );
+        }
+      } catch (error) {}
     }
   };
 
@@ -146,20 +205,20 @@ const ExpendCard: React.FC<{
       </video>
       <div>
         <div className="flex justify-between">
-            <header className="header">
-              <h1>Nomad3</h1>
-              <p>Click here to see what&apos;s AFI is in your NFT</p>
-            </header>
-            <div>
-              <ConnectWallet />
-            </div>
+          <header className="header">
+            <h1>Nomad3</h1>
+            <p>Click here to see what&apos;s AFI is in your NFT</p>
+          </header>
+          <div>
+            <ConnectWallet />
           </div>
+        </div>
         {showScanner && (
           <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
             <div className="flex flex-col items-center">
               <p className="text-lg font-semibold mb-4 text-white">
                 {isMintingNFT
-                  ? "Processing..."
+                  ? status
                   : "Show your unique Nomad3 Drops Event ID"}
               </p>
               <div className="bg-white p- rounded-lg shadow-lg">
@@ -167,10 +226,7 @@ const ExpendCard: React.FC<{
                   onResult={(result, error) => {
                     if (result != undefined) {
                       processEventAndSendTransaction(result);
-                    }
-
-                    if (error) {
-                      console.error(error);
+                      return;
                     }
                   }}
                   constraints={{ facingMode: "user" }}
@@ -189,52 +245,85 @@ const ExpendCard: React.FC<{
           </div>
         )}
 
-          <div className="md:flex md:flex-row gap-4 p-4">
-            {/* Main Card on the Left */}
-            <div className="md:flex-grow md:mr-4"> {/* Adjust the margin-right to bring it closer */}
-              <Cards
-                year={params.year}
-                eventsCount={32}
-                title="The 'Degen'"
-                poweredBy="powered by ERC-6551"
-                onNavigate={() => router.push("/")}
-                image="/PlaceA.jpg"
-              />
-            </div>
-
-            {/* Scrollable Event Cards Container on the Right */}
-            <div className="md:flex-grow" style={{ height: `${containerHeight}px`, overflowY: 'auto' }}>
-              {/* Map through your EventCard data here */}
-              {Array.from({ length: 10 }).map((_, index) => (
-                <div className="mb-4 last:mb-0" key={index}> {/* This adds a bottom margin to each card except the last one */}
-                  <EventCard
-                    title={`Event ${index}`}
-                    connection={`Connections: ${index * 3}`} // Example data
-                    onNavigate={() =>
-                      router.push(
-                        `/year/${params.year}/0x75dFC61417A32224196ccE4e0CB2081CCFa843A2`
-                      )
-                    }
-                    image={`/event_${index}.jpeg`}
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="md:flex md:flex-row gap-4 p-4">
+          {/* Main Card on the Left */}
+          <div className="md:flex-grow md:mr-4">
+            {" "}
+            {/* Adjust the margin-right to bring it closer */}
+            <Cards
+              year={params.year}
+              eventsCount={32}
+              title="The 'Degen'"
+              poweredBy="powered by ERC-6551"
+              onNavigate={() => router.push("/")}
+              image="/PlaceA.jpg"
+            />
           </div>
 
-
-
+          {/* Scrollable Event Cards Container on the Right */}
+          <div
+            className="md:flex-grow"
+            style={{ height: `${containerHeight}px`, overflowY: "auto" }}
+          >
+            {/* Map through your EventCard data here */}
+            {Array.from({ length: 10 }).map((_, index) => (
+              <div className="mb-4 last:mb-0" key={index}>
+                {" "}
+                {/* This adds a bottom margin to each card except the last one */}
+                <EventCard
+                  title={`Event ${index}`}
+                  connection={`Connections: ${index * 3}`} // Example data
+                  onNavigate={() =>
+                    router.push(
+                      `/year/${params.year}/0x75dFC61417A32224196ccE4e0CB2081CCFa843A2`
+                    )
+                  }
+                  image={`/event_${index}.jpeg`}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <Web3Button
         contractAddress={Nomad3Drops?.getAddress() || ""}
         contractAbi={Nomad3Drops?.abi}
         action={() => handleStartScan()}
-        onSubmit={() => console.log("Transaction submitted")}
+        onError={(error) => console.log(error)}
         isDisabled={isMintingNFT}
         className="ml-8"
       >
         {buttonText}
       </Web3Button>
+      {tokenboundAddress && (
+        <Web3Button
+          contractAddress={ERC6551Account?.getAddress() || ""}
+          contractAbi={ERC6551Account?.abi}
+          action={() =>
+            mutateAsyncCreateEvent({
+              args: [
+                Nomad3?.getAddress(),
+                params.year,
+                getEventMetadata(eventId),
+                ethers.BigNumber.from(Math.floor(Date.now() / 1000)),
+                tokenIdData[2].toString(),
+              ],
+            })
+          }
+          onSuccess={(result) => {
+            alert("Event created successfully!");
+            window.open(
+              `https://testnet.vicscan.xyz/tx/${result.receipt.transactionHash}`,
+              "_blank"
+            );
+          }}
+          onError={(error) => console.log(error)}
+          isDisabled={isCreatingEvent}
+          className="ml-8"
+        >
+          Create Event with TBA
+        </Web3Button>
+      )}
     </div>
   );
 };
