@@ -277,21 +277,26 @@ const ExpendCard: React.FC<{
             style={{ height: `${containerHeight}px`, overflowY: "auto" }}
           >
             {/* Map through your EventCard data here */}
-            {Array.from({ length: 10 }).map((_, index) => (
-              <div className="mb-4 last:mb-0" key={index}>
-                {/* This adds a bottom margin to each card except the last one */}
-                <EventCard
-                  EventName={`Event ${index}`}
-                  EventDate="2021-10-10"
-                  TokenboundAccount="0x75dFC61417A32224196ccE4e0CB2081CCFa843A2"
-                  onNavigate={() =>
-                    router.push(
-                      `/year/${params.year}/0x75dFC61417A32224196ccE4e0CB2081CCFa843A2`
-                    )
-                  }
-                />
-              </div>
-            ))}
+            {eventsData.map((event, index) => {
+              const eventName = event[1];
+              const eventDate = new Date(
+                BigNumber.from(event[2]).toNumber() * 1000
+              ).toLocaleDateString();
+              const tokenboundAddress = event[5];
+
+              return (
+                <div className="mb-4 last:mb-0" key={index}>
+                  <EventCard
+                    EventName={eventName}
+                    EventDate={eventDate}
+                    TokenboundAccount={tokenboundAddress}
+                    onNavigate={() =>
+                      router.push(`/year/${params.year}/${tokenboundAddress}`)
+                    }
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
