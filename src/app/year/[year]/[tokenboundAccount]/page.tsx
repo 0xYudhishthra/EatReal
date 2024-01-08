@@ -15,7 +15,6 @@ import { useStorageUpload } from "@thirdweb-dev/react";
 import { QrReader } from "react-qr-reader";
 import { ethers, BigNumber } from "ethers";
 
-
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
 }> = ({ params }) => {
@@ -118,12 +117,10 @@ const EventExtendCard: React.FC<{
         const uris = await uploadToIpfs({ data: [file] });
         setImageUri(uris[0]); // Set the IPFS URI in state to display the image
 
-        const hash = imageUri.split("/")[2];
-
         alert("Image uploaded to IPFS successfully!");
 
         const tx = await createEventPicture({
-          args: [imageUri],
+          args: [uris[0]],
         });
         console.log(tx.receipt.transactionHash);
       } catch (error) {
@@ -135,15 +132,15 @@ const EventExtendCard: React.FC<{
 
   return (
     <div>
-        <div>
-          <button
-            className="bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300"
-            onClick={() => router.back()}
-          >
-            <img src="/back.png" alt="Back" className="h-10 w-10" />
-            Back
-          </button>
-        </div>
+      <div>
+        <button
+          className="bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300"
+          onClick={() => router.back()}
+        >
+          <img src="/back.png" alt="Back" className="h-10 w-10" />
+          Back
+        </button>
+      </div>
       <div className="flex items-center justify-center mt-10">
         <Cards
           year={"2023"}
@@ -158,116 +155,135 @@ const EventExtendCard: React.FC<{
         <div className="text-3xl text-white font-bold">Connections</div>
       </div>
       {/* Scan connection qr  */}
-      
+
       <div className="flex justify-center items-center h-screen bg-black mt-40">
         <div className="relative flex items-center justify-center">
-            {/* Outermost Circle */}
-            <div className="border-2 border-white rounded-full absolute w-[1000px] h-[1000px]"></div>
-            {/* Middle Circle */}
-            <div className="border-2 border-white rounded-full absolute w-[800px] h-[800px]"></div>
-            {/* Innermost Circle */}
-            <div className="border-2 border-white rounded-full absolute w-[600px] h-[600px]"></div>
-            {/* Center Content */}
-            <div className="border-2 border-white rounded-full w-[400px] h-[400px] flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-emerald-500 z-10">
+          {/* Outermost Circle */}
+          <div className="border-2 border-white rounded-full absolute w-[1000px] h-[1000px]"></div>
+          {/* Middle Circle */}
+          <div className="border-2 border-white rounded-full absolute w-[800px] h-[800px]"></div>
+          {/* Innermost Circle */}
+          <div className="border-2 border-white rounded-full absolute w-[600px] h-[600px]"></div>
+          {/* Center Content */}
+          <div className="border-2 border-white rounded-full w-[400px] h-[400px] flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-emerald-500 z-10">
             <div className="flex items-center justify-center ">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg  "
-          onClick={handleScanConnection}
-        >
-          Add Connection
-        </button>
-        {scanqrcode && (
-          <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
-            <QrReader
-              onResult={(result, error) => {
-                if (result != undefined) {
-                  processConnectionAndSendTransaction(result);
-                }
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg  "
+                onClick={handleScanConnection}
+              >
+                Add Connection
+              </button>
+              {scanqrcode && (
+                <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-75">
+                  <QrReader
+                    onResult={(result, error) => {
+                      if (result != undefined) {
+                        processConnectionAndSendTransaction(result);
+                      }
 
-                if (error) {
-                  console.error(error);
-                }
-              }}
-              constraints={{ facingMode: "user" }}
-              containerStyle={{ width: "300px", height: "300px" }}
-              videoStyle={{ width: "100%", height: "100%" }}
-            />
+                      if (error) {
+                        console.error(error);
+                      }
+                    }}
+                    constraints={{ facingMode: "user" }}
+                    containerStyle={{ width: "300px", height: "300px" }}
+                    videoStyle={{ width: "100%", height: "100%" }}
+                  />
 
-            {/* cancel button */}
-            <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
-              onClick={() => setScanqrcode(false)}
-            >
-              Cancel
-            </button>
+                  {/* cancel button */}
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    onClick={() => setScanqrcode(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
+          {/* Person Cards */}
+          <div className="absolute " style={{ top: "100%", left: "100%" }}>
+            <PersonCard
+              name="Cody"
+              title="ETH Singapore"
+              image="/hello.jpg"
+              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
+            />
+          </div>
+          <div className="absolute" style={{ top: "100%", right: "100%" }}>
+            <PersonCard
+              name="Victoria Mitchell"
+              title="ETH Singapore"
+              image="/hello.jpg"
+              notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
+            />
+          </div>
+          <div className="absolute" style={{ bottom: "100%", left: "100%" }}>
+            <PersonCard
+              name={"Cody"}
+              title="ETH Singapore"
+              image="/hello.jpg" // Update with the path to your first image
+              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
+            />
+          </div>
+          <div className="absolute" style={{ bottom: "100%", right: "100%" }}>
+            <PersonCard
+              name={"Cody"}
+              title="ETH Singapore"
+              image="/hello.jpg" // Update with the path to your first image
+              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
+            />
+          </div>
+        </div>
       </div>
-            </div>
-            {/* Person Cards */}
-            <div className="absolute "style={{ top: '100%', left: '100%' }}>
-                <PersonCard
-                  name="Cody"
-                  title="ETH Singapore"
-                  image="/hello.jpg"
-                  notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
-                />
-            </div>
-            <div className="absolute" style={{ top: '100%', right: '100%' }}>
-                <PersonCard
-                  name="Victoria Mitchell"
-                  title="ETH Singapore"
-                  image="/hello.jpg"
-                  notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
-                />
-            </div>
-            <div className="absolute"  style={{ bottom: '100%', left: '100%' }}>
-            <PersonCard
-              name={"Cody"}
-              title="ETH Singapore"
-              image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
-            />
-            </div>
-            <div className="absolute" style={{ bottom: '100%', right: '100%' }}>
-            <PersonCard
-              name={"Cody"}
-              title="ETH Singapore"
-              image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
-            />
-            </div>
-    </div>
-
-     </div>
-      
 
       <div className="mt-60 flex justify-center font-bold text-2xl ">
         Momentos
       </div>
-      
 
       <div className="grid grid-cols-5 gap-10 mx-20 mt-10">
-      {eventPictures.map((pictureHash) => (
-        <div>
-          <MediaRenderer className="h-40 w-40 rounded-full"  src = `ipfs://${pictureHash}` />
-        </div>
-      ))}
-    </div>
-
+        {eventPictures?.map((pictureHash: string) => (
+          <div>
+            <MediaRenderer
+              className="h-40 w-40 rounded-full"
+              src={pictureHash}
+            />
+          </div>
+        ))}
+      </div>
 
       <div className="flex items-center justify-center w-full mt-20">
-      <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-60">
-        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-          <svg className="w-8 h-8 mb-4 text-white" aria-hidden="true" fill="none" viewBox="0 0 20 16">
-            {/* SVG content */}
-          </svg>
-          <p className="mb-2 text-sm text-white"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-          <p className="text-xs text-white">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-        </div>
-        <input id="dropzone-file" type="file" accept="image/*" onChange={handleImageUpload} disabled={scanqrcode} className="hidden" />
-      </label>
-    </div>
+        <label
+          htmlFor="dropzone-file"
+          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-60"
+        >
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg
+              className="w-8 h-8 mb-4 text-white"
+              aria-hidden="true"
+              fill="none"
+              viewBox="0 0 20 16"
+            >
+              {/* SVG content */}
+            </svg>
+            <p className="mb-2 text-sm text-white">
+              <span className="font-semibold">Click to upload</span> or drag and
+              drop
+            </p>
+            <p className="text-xs text-white">
+              SVG, PNG, JPG or GIF (MAX. 800x400px)
+            </p>
+          </div>
+          <input
+            id="dropzone-file"
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            disabled={scanqrcode}
+            className="hidden"
+          />
+        </label>
+      </div>
     </div>
   );
 };
