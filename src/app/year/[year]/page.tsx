@@ -6,9 +6,7 @@ import EventCard from "../../components/EventCard";
 import { useRouter } from "next/navigation";
 import {
   ConnectWallet,
-  contractType,
   useAddress,
-  useContract,
   useContractRead,
   useContractWrite,
   Web3Button,
@@ -21,31 +19,25 @@ import {
 import { ethers, BigNumber } from "ethers";
 import { QrReader } from "react-qr-reader";
 
-const ExpendCard: React.FC<{
-  params: { year: string };
-}> = ({ params }) => {
+const ExpendCard = ({ params }) => {
   const address = useAddress();
-  const [isAnimationEnabled, setAnimationEnabled] = useState(false);
   const router = useRouter();
-  const [eventId, setEventId] = useState<BigNumber>(BigNumber.from(0));
-  const [eventsData, setEventsData] = useState<[]>([]);
   const [showScanner, setShowScanner] = useState(false);
   const [tokenboundAddress, setTokenboundAddress] = useState("");
   const [tokenId, setTokenId] = useState<BigNumber>(BigNumber.from(0));
   const [metadata, setMetadata] = useState<any>();
+  const [eventId, setEventId] = useState<BigNumber>(BigNumber.from(0));
 
   const { contract: Nomad3 } = useNomad3();
   const { contract: Nomad3Drops } = useNomad3Drops();
   const { contract: ERC6551Account } = useERC6551Account(tokenboundAddress);
 
-  let {
+  const {
     mutateAsync: mutateAsyncMintNFT,
     isLoading: isMintingNFT,
     error: mintNFTError,
   } = useContractWrite(Nomad3Drops, "mintNFT");
 
-  const cardHeight = 120; // The height of one EventCard (in pixels)
-  const containerHeight = cardHeight * 3; // Show 3 cards at a time
   const {
     mutateAsync: mutateAsyncCreateEvent,
     isLoading: isCreatingEvent,
@@ -56,11 +48,8 @@ const ExpendCard: React.FC<{
     data: eventData,
     isLoading: isEventLoading,
     error: eventError,
-  } = useContractRead(Nomad3, "getEvents", [params.year], {
-    from: address,
-  });
+  } = useContractRead(Nomad3, "getEvents", [params.year], { from: address });
 
-  // Fetch event count for the current year
   const { data: eventCount } = useContractRead(
     Nomad3,
     "getEventCount",
@@ -68,90 +57,56 @@ const ExpendCard: React.FC<{
     { from: address }
   );
 
-  //iterate through each event and get the event name and date
-  for (let i = 0; i < eventData?.length; i++) {
-    const event = eventData[i];
-    const eventName = event[1];
-    const eventDate = event[2];
-    const tokenboundAddress = event[5];
-    // console.log(
-    //   eventName,
-    //   BigNumber.from(eventDate).toString(),
-    //   tokenboundAddress
-    // );
-  }
-
-  const {
-    data: tokenIdData,
-    isLoading: isTokenIdLoading,
-    error: tokenIdError,
-  } = useContractRead(ERC6551Account, "token");
-
   const {
     data: tokenURIData,
     isLoading: isTokenURILoading,
     error: tokenURIError,
   } = useContractRead(Nomad3Drops, "tokenURI", [tokenId]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setEventsData(eventData);
-        setTokenboundAddress(tokenboundAddress);
-        setTokenId(tokenId);
-        setMetadata(metadata);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [eventData, tokenboundAddress, tokenId, metadata]);
-
-  // Call the function in an effect or another async function
-  useEffect(() => {
-    if (tokenURIData) {
-      fetchEventMetadata().then((metadata) => {
-        setMetadata(metadata); // Update the state with the fetched metadata
-      });
-    }
-  }, [tokenURIData]); // Depend on tokenURIData
-
-  useEffect(() => {
-    // Enable animation after component is mounted
-    setAnimationEnabled(true);
-
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.85;
-    }
-
-    if (!address) {
-      router.push("/"); // Redirect to the homepage if not connected
-    }
-  }, [address, router]);
-
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  //Function that fetches the event metadata based on the event id
-  //currently its, Qmdm2jUV9odWZtCj5hsS2pbpGz7ZuDAhEZWWC1ninagDxc/VictionHackathon.json/26, im only interested in everythng but "/26"
   const fetchEventMetadata = async () => {
     try {
       const ipfsHash = tokenURIData?.slice(0, -3);
       if (ipfsHash) {
-        const data = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`);
-        const json = await data.json();
-        console.log("Metadata:", json); // Log the metadata
-        return json; // Return the JSON data
+        const response = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const json = await response.json();
+        return json;
       }
     } catch (error) {
       console.error("Error fetching metadata:", error);
+      return null;
     }
   };
 
-  // This function is now responsible for starting the QR scan process.
+  useEffect(() => {
+    if (tokenURIData) {
+      fetchEventMetadata().then((metadata) => {
+        if (metadata) {
+          setMetadata(metadata);
+        }
+      });
+    }
+  }, [tokenURIData]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.85;
+    }
+    if (!address) {
+      router.push("/");
+    }
+  }, [address, router]);
+
   const handleStartScan = () => {
-    setShowScanner(true); // Open the QR code scanner
+    setShowScanner(true);
   };
+
+  const cardHeight = 120; // The height of one EventCard (in pixels)
+  const containerHeight = cardHeight * 3; // Show 3 cards at a time
 
   // Combine handleQrResult and sendTransaction into one function
   const processEventAndSendTransaction = async (scannedResult: any) => {
@@ -285,7 +240,7 @@ const ExpendCard: React.FC<{
             style={{ height: `${containerHeight}px`, overflowY: "auto" }}
           >
             {/* Map through your EventCard data here */}
-            {eventsData?.map((event, index) => {
+            {eventData?.map((event: any, index: number) => {
               const eventName = event[1];
               const eventDate = new Date(
                 BigNumber.from(event[2]).toNumber() * 1000
@@ -333,7 +288,7 @@ const ExpendCard: React.FC<{
                 params.year,
                 metadata.eventName,
                 metadata.eventDate,
-                tokenIdData[2].toString(),
+                tokenId,
               ],
             })
           }
