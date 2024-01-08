@@ -331,8 +331,7 @@ const ExpendCard: React.FC<{
               `https://testnet.vicscan.xyz/tx/${result.receipt.transactionHash}`,
               "_blank"
             );
-            isMintingNFT = false;
-            setTokenboundAddress("");
+            router.push(`/year/${params.year}/${tokenboundAddress}`);
           }}
           onError={(error) => console.log(error)}
           isDisabled={isCreatingEvent}
