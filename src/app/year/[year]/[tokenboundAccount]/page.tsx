@@ -8,11 +8,13 @@ import {
   useAddress,
   useContractRead,
   useContractWrite,
+  MediaRenderer,
 } from "@thirdweb-dev/react";
 import { useERC6551Account } from "../../../components/ContractInteractions";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { QrReader } from "react-qr-reader";
 import { ethers, BigNumber } from "ethers";
+
 
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
@@ -246,47 +248,14 @@ const EventExtendCard: React.FC<{
       
 
       <div className="grid grid-cols-5 gap-10 mx-20 mt-10">
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
+      {eventPictures.map((pictureHash) => (
+        <div>
+          <MediaRenderer className="h-40 w-40 rounded-full"  src = `ipfs://${pictureHash}` />
         </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <img src="/hello.jpg" alt="Back" className="h-40 w-40 rounded-full" />
-          <div className="text-white font-semibold mt-2">Viction Event</div>
-        </div>
-      </div>
+      ))}
+    </div>
+
+
       <div className="flex items-center justify-center w-full mt-20">
       <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-black bg-opacity-50 hover:bg-opacity-60">
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
