@@ -3,11 +3,16 @@ import React, { useState, useEffect } from "react";
 import Cards from "../../../components/Cards";
 import PersonCard from "../../../components/PersonCard";
 import { useRouter } from "next/navigation";
-import { useAddress } from "@thirdweb-dev/react";
-import { useStorageUpload } from '@thirdweb-dev/react';
-import { QrReader } from 'react-qr-reader';
+import {
+  ConnectWallet,
+  useAddress,
+  useContractRead,
+  useContractWrite,
+} from "@thirdweb-dev/react";
+import { useERC6551Account } from "../../../components/ContractInteractions";
+import { useStorageUpload } from "@thirdweb-dev/react";
+import { QrReader } from "react-qr-reader";
 import { ethers, BigNumber } from "ethers";
-
 
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
@@ -16,13 +21,42 @@ const EventExtendCard: React.FC<{
   const address = useAddress();
   const [imageUri, setImageUri] = useState("");
   const { mutateAsync: upload } = useStorageUpload();
-  const [ scanqrcode, setScanqrcode ] = useState(false);
+  const [scanqrcode, setScanqrcode] = useState(false);
   const [buttonText, setButtonText] = useState(
     "Scan QR Code to get Connection Address"
   );
-const { mutateAsync: uploadToIpfs } = useStorageUpload();
+  const { contract: ERC6551Account } = useERC6551Account(
+    params.tokenboundAccount
+  );
+  const { mutateAsync: uploadToIpfs } = useStorageUpload();
+  let {
+    mutateAsync: createEventPicture,
+    isLoading: isCreatingEventPicture,
+    error: createEventPictureError,
+  } = useContractWrite(ERC6551Account, "createEventPicture");
 
-  
+  let {
+    mutateAsync: createConnection,
+    isLoading: isCreatingConnection,
+    error: createConnectionError,
+  } = useContractWrite(ERC6551Account, "createConnection");
+
+  const {
+    data: connections,
+    isLoading: isConnectionsLoading,
+    error: connectionsError,
+  } = useContractRead(ERC6551Account, "getConnections");
+
+  console.log("connections", connections);
+
+  const {
+    data: eventPictures,
+    isLoading: isEventPicturesLoading,
+    error: eventPicturesError,
+  } = useContractRead(ERC6551Account, "getEventPictures");
+
+  console.log("eventpictures", eventPictures);
+
   useEffect(() => {
     if (!address) {
       router.push("/"); // Redirect to the homepage if not connected
@@ -40,49 +74,59 @@ const { mutateAsync: uploadToIpfs } = useStorageUpload();
     );
   }
 
-
   // handle scan connection button
   const handleScanConnection = () => {
     setScanqrcode(true);
   };
- // Combine handleQrResult and sendTransaction into one function
- const processConnectionAndSendTransaction = async (scannedResult: any) => {
-  if (scannedResult) {
-    // Parse the result
-    const scannedConnectionAdd = ethers.BigNumber.from(
-      parseInt(scannedResult.getText())
-    );
-    setScanqrcode(scanqrcode);
+  // Combine handleQrResult and sendTransaction into one function
+  const processConnectionAndSendTransaction = async (scannedResult: any) => {
+    if (scannedResult) {
+      // Parse the result
+      const scannedConnectionAdd = ethers.BigNumber.from(
+        parseInt(scannedResult.getText())
+      );
+      setScanqrcode(scanqrcode);
 
-    try {
-      // Start transaction immediately after scanning
-      const tx = await scannedConnectionAdd;
-      setButtonText(
-        "Transaction successful - check your console for tx hash"
-      );
-    } catch (error) {
-      setButtonText(
-        "Transaction failed - check your console for error message"
-      );
-    } finally {
-      setScanqrcode(false); // Close scanner after attempting transaction
+      const tx = await createConnection({
+        // args: [personName, personWalletAddress, personPP], //this is supposed to be the content of the qr code
+      });
+      console.log(tx.receipt.transactionHash); //if you get this, means the tx succedd
+
+      try {
+        // Start transaction immediately after scanning
+        const tx = await scannedConnectionAdd;
+        setButtonText(
+          "Transaction successful - check your console for tx hash"
+        );
+      } catch (error) {
+        setButtonText(
+          "Transaction failed - check your console for error message"
+        );
+      } finally {
+        setScanqrcode(false); // Close scanner after attempting transaction
+      }
     }
-  }
   };
 
-
-  const handleImageUpload = async (event) => {
+  const handleImageUpload = async (event: any) => {
     const file = event.target.files[0]; // Get the file from the event
     if (file) {
       try {
         // Upload the file to IPFS
-        console.log(file)
         const uris = await uploadToIpfs({ data: [file] });
         setImageUri(uris[0]); // Set the IPFS URI in state to display the image
-        alert('Image uploaded to IPFS successfully!');
+
+        const hash = imageUri.split("/")[2];
+
+        alert("Image uploaded to IPFS successfully!");
+
+        const tx = await createEventPicture({
+          args: [imageUri],
+        });
+        console.log(tx.receipt.transactionHash);
       } catch (error) {
-        console.error('Error uploading image to IPFS:', error);
-        alert('Error uploading image to IPFS.');
+        console.log("Error uploading image to IPFS:", error);
+        alert("Error uploading image to IPFS.");
       }
     }
   };
@@ -114,7 +158,11 @@ const { mutateAsync: uploadToIpfs } = useStorageUpload();
         {imageUri && (
           <div className="mt-4">
             <p>Image uploaded to IPFS:</p>
-            <img src={imageUri} alt="Uploaded to IPFS" className="h-40 w-40 rounded-full" />
+            <img
+              src={imageUri}
+              alt="Uploaded to IPFS"
+              className="h-40 w-40 rounded-full"
+            />
           </div>
         )}
       </div>
@@ -133,9 +181,10 @@ const { mutateAsync: uploadToIpfs } = useStorageUpload();
       </div>
       {/* Scan connection qr  */}
       <div className="flex items-center justify-center mt-12">
-        <button 
+        <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-lg  "
-          onClick={handleScanConnection}>
+          onClick={handleScanConnection}
+        >
           Add Connection
         </button>
         {scanqrcode && (
@@ -154,15 +203,15 @@ const { mutateAsync: uploadToIpfs } = useStorageUpload();
               containerStyle={{ width: "300px", height: "300px" }}
               videoStyle={{ width: "100%", height: "100%" }}
             />
-          
-          {/* cancel button */}
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={() => setScanqrcode(false)}
-          >
-            Cancel
-          </button>
-        </div>
+
+            {/* cancel button */}
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+              onClick={() => setScanqrcode(false)}
+            >
+              Cancel
+            </button>
+          </div>
         )}
       </div>
       <div className="flex justify-between mt-28 mx-40 z-20">
@@ -207,8 +256,7 @@ const { mutateAsync: uploadToIpfs } = useStorageUpload();
           notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
         />
       </div>
-    
-     
+
       <div className="mt-20 flex justify-center font-semibold text-2xl">
         Momentos
       </div>

@@ -66,11 +66,11 @@ const ExpendCard: React.FC<{
     const eventName = event[1];
     const eventDate = event[2];
     const tokenboundAddress = event[5];
-    console.log(
-      eventName,
-      BigNumber.from(eventDate).toString(),
-      tokenboundAddress
-    );
+    // console.log(
+    //   eventName,
+    //   BigNumber.from(eventDate).toString(),
+    //   tokenboundAddress
+    // );
   }
 
   const {
