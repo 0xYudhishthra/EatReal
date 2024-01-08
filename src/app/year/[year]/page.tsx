@@ -288,8 +288,8 @@ const ExpendCard: React.FC<{
               args: [
                 Nomad3?.getAddress(),
                 params.year,
-                metadata.eventName,
-                metadata.eventDate,
+                metadata?.eventName,
+                metadata?.eventDate,
                 tokenId,
               ],
             })
