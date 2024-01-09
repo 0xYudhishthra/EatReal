@@ -221,9 +221,9 @@ const EventExtendCard: React.FC<{
             {connections?.map((person: any, index: number) => (
               <div
                 key={index}
-                className="absolute hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out"
+                className="absolute hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out mb-40"
                 style={{
-                  bottom: "150%",
+                  bottom: "100%",
                   [index % 2 === 0 ? "left" : "right"]: "100%",
                 }}
               >
