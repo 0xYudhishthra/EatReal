@@ -15,7 +15,7 @@ const PersonCards: React.FC<PersonalCardProps> = ({
   notes,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-6 border-2 border-black rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 w-96 h-auto">
+    <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-auto">
       <Image
         src={image}
         alt={title}
@@ -30,5 +30,8 @@ const PersonCards: React.FC<PersonalCardProps> = ({
     </div>
   );
 };
+
+
+
 
 export default PersonCards;

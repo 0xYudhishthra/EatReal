@@ -16,6 +16,7 @@ import { QrReader } from "react-qr-reader";
 import { ethers, BigNumber } from "ethers";
 import Image from "next/image";
 
+
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
 }> = ({ params }) => {
@@ -157,7 +158,7 @@ const EventExtendCard: React.FC<{
       </div>
       {/* Scan connection qr  */}
 
-      <div className="flex justify-center items-center h-screen bg-black mt-40">
+      <div className="flex justify-center items-center h-screen bg-black mt-80">
         <div className="relative flex items-center justify-center">
           {/* Outermost Circle */}
           <div className="border-2 border-white rounded-full absolute w-[1000px] h-[1000px]"></div>
@@ -203,38 +204,35 @@ const EventExtendCard: React.FC<{
             </div>
           </div>
           {/* Person Cards */}
-          <div className="absolute " style={{ top: "100%", left: "100%" }}>
-            <PersonCard
-              name="Cody"
-              title="ETH Singapore"
-              image="/hello.jpg"
-              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
-            />
+          <div className="absolute" style={{ top: "100%", left: "100%" }}>
+          <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-96 relative hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
+              <div className="flex justify-center items-center">
+                  <span className="block bg-gray-300 h-9 w-1"></span>
+                  <span className="block bg-gray-300 w-9 h-1 absolute"></span>
+              </div>
+          </div>
           </div>
           <div className="absolute" style={{ top: "100%", right: "100%" }}>
-            <PersonCard
-              name="Victoria Mitchell"
-              title="ETH Singapore"
-              image="/hello.jpg"
-              notes="Notes: I met Victoria at the Viction event. He's the Project Manager of the Viction team."
-            />
+          <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-96 relative hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
+              <div className="flex justify-center items-center">
+                  <span className="block bg-gray-300 h-9 w-1"></span>
+                  <span className="block bg-gray-300 w-9 h-1 absolute"></span>
+              </div>
           </div>
-          <div className="absolute" style={{ bottom: "100%", left: "100%" }}>
-            <PersonCard
-              name={"Cody"}
-              title="ETH Singapore"
-              image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
-            />
           </div>
-          <div className="absolute" style={{ bottom: "100%", right: "100%" }}>
-            <PersonCard
-              name={"Cody"}
-              title="ETH Singapore"
-              image="/hello.jpg" // Update with the path to your first image
-              notes="Notes: I met him at the Viction event. He's the Project Manager of the Viction team."
-            />
+          <div className="relative">
+            {/* {connections.map((person, index) => (
+              <div key={index} className="absolute hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out" style={{ bottom: "100%", [index % 2 === 0 ? 'left' : 'right']: "100%" }}>
+                <PersonCard
+                  name={person.name}
+                  title={person.title}
+                  image={person.image}
+                  notes={person.notes}
+                />
+              </div>
+            ))} */}
           </div>
+
         </div>
       </div>
 
