@@ -1,5 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import {
+  MediaRenderer,
+} from "@thirdweb-dev/react";
 
 interface PersonalCardProps {
   name: string;
@@ -14,12 +17,10 @@ const PersonCards: React.FC<PersonalCardProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-auto">
-      <Image
-        src={image}
-        alt="Descriptive Text"
-        className=" object-cover"
-        width={500}
-        height={300}
+      
+
+      <MediaRenderer 
+      src={image}
       />
       <div className="flex justify-between">
         <div className="text-lg font-bold ">{name}</div>

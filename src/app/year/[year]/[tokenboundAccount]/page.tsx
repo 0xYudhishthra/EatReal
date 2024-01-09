@@ -225,15 +225,17 @@ const EventExtendCard: React.FC<{
                 key={index}
                 className="absolute hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out"
                 style={{
-                  bottom: "100%",
+                  bottom: "150%",
                   [index % 2 === 0 ? "left" : "right"]: "100%",
                 }}
               >
+                
                 <PersonCard
                   name={person.name}
                   walletAddress={person.walletAddress}
                   image="/PlaceA.jpg"
                 />
+                
               </div>
             ))}
           </div>
