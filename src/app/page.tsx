@@ -131,7 +131,7 @@ const LandingPage = () => {
           <div className="flex justify-between">
             <header className="header">
               <h1>Nomad3</h1>
-              <p>Click here to see what&apos;s AFI is in your NFT</p>
+              <p>Chaining your memories together.</p>
             </header>
             <div className="grid grid-flow-col space-x-4 ">
               <div className=" z-10 flex justify-center place-items-start top-0 bottom-6">

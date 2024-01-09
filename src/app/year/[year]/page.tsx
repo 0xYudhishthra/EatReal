@@ -71,7 +71,10 @@ const ExpendCard: React.FC<{
     try {
       const ipfsHash = tokenURIData?.slice(0, -3);
       if (ipfsHash) {
-        const response = await fetch(`https://ipfs.io/ipfs/${ipfsHash}`);
+        const response = await fetch(
+          `https://${process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}.ipfscdn.io/ipfs/${ipfsHash}`
+        );
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -183,7 +186,7 @@ const ExpendCard: React.FC<{
         <div className="flex justify-between">
           <header className="header">
             <h1>Nomad3</h1>
-            <p>Click here to see what&apos;s AFI is in your NFT</p>
+            <p>Chaining your memories together.</p>
           </header>
           <div>
             <ConnectWallet />
@@ -224,7 +227,6 @@ const ExpendCard: React.FC<{
         <div className="md:flex md:flex-row gap-4 p-4">
           {/* Main Card on the Left */}
           <div className="md:flex-grow md:mr-4">
-            {" "}
             {/* Adjust the margin-right to bring it closer */}
             <Cards
               year={params.year}
@@ -250,7 +252,7 @@ const ExpendCard: React.FC<{
               const tokenboundAddress = event[5];
 
               return (
-                <div className="mb-4 last:mb-0" key={index}>
+                <div className="mb-4 " key={index}>
                   <EventCard
                     EventName={eventName}
                     EventDate={eventDate}
