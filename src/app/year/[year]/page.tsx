@@ -19,6 +19,7 @@ import {
 import { ethers, BigNumber } from "ethers";
 import { QrReader } from "react-qr-reader";
 
+
 const ExpendCard: React.FC<{
   params: { year: string };
 }> = ({ params }) => {
@@ -164,8 +165,8 @@ const ExpendCard: React.FC<{
   }
 
   return (
-    <div className="app">
-      <video
+    <div className="relative flex min-h-screen flex-col">
+    <video
         ref={videoRef}
         autoPlay
         loop
@@ -182,8 +183,9 @@ const ExpendCard: React.FC<{
       >
         <source src="/Background.mp4" type="video/mp4" />
       </video>
+    <div className="app">
       <div>
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
           <header className="header">
             <h1>Nomad3</h1>
             <p>Chaining your memories together.</p>
@@ -313,6 +315,7 @@ const ExpendCard: React.FC<{
             : `Create Event with TBA ${tokenboundAddress}`}
         </Web3Button>
       )}
+    </div>
     </div>
   );
 };

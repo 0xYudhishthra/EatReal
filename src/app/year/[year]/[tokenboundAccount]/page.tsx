@@ -134,15 +134,16 @@ const EventExtendCard: React.FC<{
 
   return (
     <div>
-      <div>
-        <button
-          className="bg-[#4681f4] p-1 pr-3 rounded-2xl mt-5 ml-5 flex items-center hover:bg-[#5659ff] ease-in-out duration-300"
-          onClick={() => router.back()}
-        >
-          <Image src="/back.png" alt="Back" height={10} width={10} />
-          Back
-        </button>
-      </div>
+      <div className="flex justify-between">
+          <header className="header">
+            <h1>Nomad3</h1>
+            <p>Chaining your memories together.</p>
+          </header>
+          <div className= "mt-5 mr-5">
+            <ConnectWallet />
+          </div>
+        </div>
+      
       <div className="flex items-center justify-center mt-10">
         <Cards
           year={"2023"}
