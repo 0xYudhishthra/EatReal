@@ -89,7 +89,7 @@ const EventExtendCard: React.FC<{
         const scannedConnectionAdd = scannedResult.getText();
 
         const tx = await createConnection({
-          args: ["Michael", scannedConnectionAdd, "Picture"], //this is supposed to be the content of the qr code
+          args: ["Yee Chian", scannedConnectionAdd, "Picture"], //this is supposed to be the content of the qr code
         });
         if (tx) {
           console.log(tx.receipt.transactionHash);
@@ -227,13 +227,11 @@ const EventExtendCard: React.FC<{
                   [index % 2 === 0 ? "left" : "right"]: "100%",
                 }}
               >
-                
                 <PersonCard
                   name={person.name}
                   walletAddress={person.walletAddress}
                   image="/PlaceA.jpg"
                 />
-                
               </div>
             ))}
           </div>
