@@ -16,7 +16,6 @@ import { QrReader } from "react-qr-reader";
 import { ethers, BigNumber } from "ethers";
 import Image from "next/image";
 
-
 const EventExtendCard: React.FC<{
   params: { tokenboundAccount: string };
 }> = ({ params }) => {
@@ -84,23 +83,22 @@ const EventExtendCard: React.FC<{
   // Combine handleQrResult and sendTransaction into one function
   const processConnectionAndSendTransaction = async (scannedResult: any) => {
     if (scannedResult) {
-      // Parse the result
-      const scannedConnectionAdd = ethers.BigNumber.from(
-        parseInt(scannedResult.getText())
-      );
-      setScanqrcode(scanqrcode);
-
-      const tx = await createConnection({
-        // args: [personName, personWalletAddress, personPP], //this is supposed to be the content of the qr code
-      });
-      console.log(tx.receipt.transactionHash); //if you get this, means the tx succedd
-
       try {
-        // Start transaction immediately after scanning
-        const tx = await scannedConnectionAdd;
-        setButtonText(
-          "Transaction successful - check your console for tx hash"
-        );
+        console.log("scannedResult", scannedResult.getText());
+        // Parse the result
+        const scannedConnectionAdd = scannedResult.getText();
+
+        setScanqrcode(scanqrcode);
+
+        const tx = await createConnection({
+          args: ["Michael", scannedConnectionAdd, "Picture"], //this is supposed to be the content of the qr code
+        });
+        if (tx) {
+          console.log(tx.receipt.transactionHash);
+          setButtonText(
+            "Transaction successful - check your console for tx hash"
+          );
+        }
       } catch (error) {
         setButtonText(
           "Transaction failed - check your console for error message"
@@ -206,34 +204,39 @@ const EventExtendCard: React.FC<{
           </div>
           {/* Person Cards */}
           <div className="absolute" style={{ top: "100%", left: "100%" }}>
-          <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-96 relative hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-96 relative hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
               <div className="flex justify-center items-center">
-                  <span className="block bg-gray-300 h-9 w-1"></span>
-                  <span className="block bg-gray-300 w-9 h-1 absolute"></span>
+                <span className="block bg-gray-300 h-9 w-1"></span>
+                <span className="block bg-gray-300 w-9 h-1 absolute"></span>
               </div>
-          </div>
+            </div>
           </div>
           <div className="absolute" style={{ top: "100%", right: "100%" }}>
-          <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-96 relative hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-96 h-96 relative hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out">
               <div className="flex justify-center items-center">
-                  <span className="block bg-gray-300 h-9 w-1"></span>
-                  <span className="block bg-gray-300 w-9 h-1 absolute"></span>
+                <span className="block bg-gray-300 h-9 w-1"></span>
+                <span className="block bg-gray-300 w-9 h-1 absolute"></span>
               </div>
-          </div>
+            </div>
           </div>
           <div className="relative">
-            {/* {connections.map((person, index) => (
-              <div key={index} className="absolute hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out" style={{ bottom: "100%", [index % 2 === 0 ? 'left' : 'right']: "100%" }}>
+            {connections?.map((person: any, index: number) => (
+              <div
+                key={index}
+                className="absolute hover:shadow-2xl hover:scale-110 transition-transform duration-300 ease-in-out"
+                style={{
+                  bottom: "100%",
+                  [index % 2 === 0 ? "left" : "right"]: "100%",
+                }}
+              >
                 <PersonCard
                   name={person.name}
-                  title={person.title}
-                  image={person.image}
-                  notes={person.notes}
+                  walletAddress={person.walletAddress}
+                  image="/PlaceA.jpg"
                 />
               </div>
-            ))} */}
+            ))}
           </div>
-
         </div>
       </div>
 
