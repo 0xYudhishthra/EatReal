@@ -88,8 +88,6 @@ const EventExtendCard: React.FC<{
         // Parse the result
         const scannedConnectionAdd = scannedResult.getText();
 
-        setScanqrcode(scanqrcode);
-
         const tx = await createConnection({
           args: ["Michael", scannedConnectionAdd, "Picture"], //this is supposed to be the content of the qr code
         });
@@ -133,15 +131,15 @@ const EventExtendCard: React.FC<{
   return (
     <div>
       <div className="flex justify-between">
-          <header className="header">
-            <h1>Nomad3</h1>
-            <p>Chaining your memories together.</p>
-          </header>
-          <div className= "mt-5 mr-5">
-            <ConnectWallet />
-          </div>
+        <header className="header">
+          <h1>Nomad3</h1>
+          <p>Chaining your memories together.</p>
+        </header>
+        <div className="mt-5 mr-5">
+          <ConnectWallet />
         </div>
-      
+      </div>
+
       <div className="flex items-center justify-center mt-10">
         <Cards
           year={"2023"}
